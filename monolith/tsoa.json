@@ -1,0 +1,13 @@
+{
+    "entryFile": "monolith/src/server.ts",
+    "controllerPathGlobs": ["monolith/src/controller/**/*.ts"],
+    "spec": {
+        "outputDirectory": "public/UserSign",
+      "specVersion": 3,
+      "entryFile": "monolith/src/server.ts"
+    },
+    "routes": {
+      "basePath": "/api"
+    }
+  }
+  
