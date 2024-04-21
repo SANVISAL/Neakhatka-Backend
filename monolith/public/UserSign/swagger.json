@@ -6,7 +6,196 @@
 		"parameters": {},
 		"requestBodies": {},
 		"responses": {},
-		"schemas": {},
+		"schemas": {
+			"UserProfille": {
+				"properties": {
+					"profilePicture": {
+						"type": "string"
+					},
+					"firstName": {
+						"type": "string"
+					},
+					"lastName": {
+						"type": "string"
+					},
+					"contactPhone": {
+						"type": "string"
+					},
+					"gender": {
+						"type": "string"
+					},
+					"location": {
+						"type": "string"
+					},
+					"dateOfBirth": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"nationality": {
+						"type": "string"
+					},
+					"address": {
+						"type": "string"
+					},
+					"educationBackground": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"profilePicture",
+					"firstName",
+					"lastName",
+					"contactPhone",
+					"gender",
+					"location",
+					"dateOfBirth",
+					"nationality",
+					"address",
+					"educationBackground"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"EmailPassword": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"Partial_UserProfille_": {
+				"properties": {
+					"profilePicture": {
+						"type": "string"
+					},
+					"firstName": {
+						"type": "string"
+					},
+					"lastName": {
+						"type": "string"
+					},
+					"contactPhone": {
+						"type": "string"
+					},
+					"gender": {
+						"type": "string"
+					},
+					"location": {
+						"type": "string"
+					},
+					"dateOfBirth": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"nationality": {
+						"type": "string"
+					},
+					"address": {
+						"type": "string"
+					},
+					"educationBackground": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"Partial_EmailPassword_": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			},
+			"ICard": {
+				"properties": {
+					"profilePicture": {
+						"type": "string"
+					},
+					"companyName": {
+						"type": "string"
+					},
+					"peopleAccess": {
+						"type": "number",
+						"format": "double"
+					},
+					"jobTitle": {
+						"type": "string"
+					},
+					"salary": {
+						"type": "string"
+					},
+					"employment": {
+						"type": "string"
+					},
+					"location": {
+						"type": "string"
+					},
+					"deadline": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"profilePicture",
+					"companyName",
+					"peopleAccess",
+					"jobTitle",
+					"salary",
+					"employment",
+					"location",
+					"deadline"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"Partial_ICard_": {
+				"properties": {
+					"profilePicture": {
+						"type": "string"
+					},
+					"companyName": {
+						"type": "string"
+					},
+					"peopleAccess": {
+						"type": "number",
+						"format": "double"
+					},
+					"jobTitle": {
+						"type": "string"
+					},
+					"salary": {
+						"type": "string"
+					},
+					"employment": {
+						"type": "string"
+					},
+					"location": {
+						"type": "string"
+					},
+					"deadline": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"type": "object",
+				"description": "Make all properties in T optional"
+			}
+		},
 		"securitySchemes": {}
 	},
 	"info": {
@@ -18,6 +207,251 @@
 		"contact": {}
 	},
 	"paths": {
+		"/users": {
+			"post": {
+				"operationId": "CreateUserController",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {}
+						}
+					}
+				}
+			}
+		},
+		"/users/all": {
+			"get": {
+				"operationId": "GetAllUserController",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/UserProfille"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/users/email-password/all": {
+			"get": {
+				"operationId": "GetAllEmailPasswordController",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/EmailPassword"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/users/profile/{id}": {
+			"get": {
+				"operationId": "GetCardById",
+				"responses": {
+					"200": {
+						"description": "Successfully retrieved User",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/users/email-password/{id}": {
+			"get": {
+				"operationId": "GetEmailPasswordById",
+				"responses": {
+					"200": {
+						"description": "Successfully retrieved Email and Password",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/users/update/{id}": {
+			"put": {
+				"operationId": "UpdateUserController",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Partial_UserProfille_"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/users/email-password/update/{id}": {
+			"put": {
+				"operationId": "UpdateEmailPasswordController",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Partial_EmailPassword_"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/users/delete/{id}": {
+			"delete": {
+				"operationId": "DeleteUserContrioller",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/users/email-password/delete/{id}": {
+			"delete": {
+				"operationId": "DeleteEmailPasswordContrioller",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
 		"/tests": {
 			"get": {
 				"operationId": "GetTests",
@@ -35,6 +469,138 @@
 				},
 				"security": [],
 				"parameters": []
+			}
+		},
+		"/Cards": {
+			"post": {
+				"operationId": "CreateCardController",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetAllCardController",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ICard"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/Cards/{id}": {
+			"get": {
+				"operationId": "GetCardById",
+				"responses": {
+					"200": {
+						"description": "Successfully retrieved card",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"404": {
+						"description": "Card not found"
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateCardController",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/Partial_ICard_"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteCardContrioller",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		}
 	},

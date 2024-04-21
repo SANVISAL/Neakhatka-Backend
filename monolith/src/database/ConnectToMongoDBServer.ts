@@ -1,12 +1,12 @@
-// import mongoose from  'mongoose'
+import mongoose from 'mongoose';
 
-//  async function conectmongooDB() {
-//   try {
-//     await mongoose.connect(' mongodb+srv://neakhatka:Y54vroRJDmgoLRk3@neakhatka.lcga9wy.mongodb.net/');
-//     console.log("Connected to MongoDB successfully!");
-//   } catch (error:any) {
-//     console.error("Error connecting to MongoDB:", error.message);
-//   }
-// }
+async function connectMongoDB() {
+  try {
+    await mongoose.connect('mongodb+srv://neakhatka:Y54vroRJDmgoLRk3@neakhatka.lcga9wy.mongodb.net/neakhatka?retryWrites=true&w=majority');
+    console.log("Connected to MongoDB successfully!");
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error.message);
+  }
+}
 
-// export {conectmongooDB}
+export { connectMongoDB };
