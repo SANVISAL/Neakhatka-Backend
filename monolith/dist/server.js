@@ -6,11 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = void 0;
 const app_1 = __importDefault(require("../src/app"));
 exports.app = app_1.default;
-// import app from "./app";
-const ConnnectToDB_1 = require("./utils/ConnnectToDB");
+const ConnectToMongoDBServer_1 = require("./database/ConnectToMongoDBServer");
 // import { connectToDatabasesignup } from "./utils/connectToDB";
 const port = 5000;
-(0, ConnnectToDB_1.conectmongooDB)();
+(0, ConnectToMongoDBServer_1.connectMongoDB)();
 app_1.default.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

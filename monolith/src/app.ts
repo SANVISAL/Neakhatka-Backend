@@ -7,22 +7,27 @@ import * as path from "path";
 import { Cardrouter } from "./routes/CardRoutes/CardRouter";
 // import { Userrouter } from "./routes/SignUpRoute/User-Sign-Up-Routes";
 import { SignUprouter, VerifyRoute } from "./routes/AuthRoutes/AuthRoutes";
-
-const Userapp: Application = express();
+import jobRoutes from "./routes/Post/jobRoutes";
+import { errorHandler } from "./middlewares/Post/errorMiddleware";
+const app: Application = express();
 
 // Serve static files from the public directory
-Userapp.use(express.static("public"));
+app.use(express.static("public"));
 
 // Middleware to parse JSON and URL-encoded request bodies
-Userapp.use(express.json());
-Userapp.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Error handling middleware
+app.use(errorHandler);
 
 // Routes
-// Userapp.use("/tests", router);
-Userapp.use("/cards", Cardrouter);
-// Userapp.use("/users", Userrouter);
-Userapp.use("/sign-up", SignUprouter);
-Userapp.use('/verify',VerifyRoute);
+app.use("/api/jobs", jobRoutes);
+// app.use("/tests", router);
+app.use("/cards", Cardrouter);
+// app.use("/users", Userrouter);
+app.use("/sign-up", SignUprouter);
+app.use('/verify',VerifyRoute);
 // ReDoc documentation endpoint
 // Userapp.get(
 //   "/docs",
@@ -54,6 +59,6 @@ Userapp.use('/verify',VerifyRoute);
 // );
 
 // Swagger UI endpoint
-Userapp.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-export default Userapp;
+export default app;
