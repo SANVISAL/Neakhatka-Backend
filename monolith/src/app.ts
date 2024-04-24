@@ -5,7 +5,7 @@ import swaggerDocument from "../public/UserSign/swagger.json";
 import redoc from "redoc-express";
 import * as path from "path";
 import { Cardrouter } from "./routes/CardRoutes/CardRouter";
-// import { Userrouter } from "./routes/SignUpRoute/User-Sign-Up-Routes";
+import { Userrouter } from "./routes/SignUpRoute/User-Sign-Up-Routes";
 import { SignUprouter, VerifyRoute } from "./routes/AuthRoutes/AuthRoutes";
 
 const Userapp: Application = express();
@@ -20,7 +20,7 @@ Userapp.use(express.urlencoded({ extended: true }));
 // Routes
 // Userapp.use("/tests", router);
 Userapp.use("/cards", Cardrouter);
-// Userapp.use("/users", Userrouter);
+Userapp.use("/users", Userrouter);
 Userapp.use("/sign-up", SignUprouter);
 Userapp.use('/verify',VerifyRoute);
 // ReDoc documentation endpoint

@@ -113,28 +113,32 @@ VerifyRoute.get("/:token", async (req, res) => {
 
     // Fetc first name and Last name from Auth
     const Authuser = await AuthModel.findById(VerifittEnty.userId)
+
     if (!Authuser){
       return res.status(404).send("User Not Found");
     }
-
     
     // Create or Update UserProfile with firstName and lastName
     const userProfile = await UserModel.findOne({ email: Authuser.email });
+    console.log(userProfile)
 
-    if (userProfile) {
-      // userProfile.firstName = Authuser.firstName;
-      // userProfile.lastName = Authuser.lastName;
-      // await userProfile.save();
-      console.log(error)
-    } else {
+    if (!userProfile) {
       await UserModel.create({
         firstName: Authuser.firstName,
         lastName: Authuser.lastName,
         email: Authuser.email,
+        contactPhone:"",
+        gender: "",
+        location: "",
+        dateOfBirth: "",
+        nationality: "",
+        address: "",
+        educationBackground: "",
         // other fields can be initialized with default values or left blank
       });
+    } else {
+      res.send("This email used before");
     }
-
     // Redirect user to a success page or send a response
     res.send("Email verified successfully");
   } catch (error) {

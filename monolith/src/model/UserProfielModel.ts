@@ -17,50 +17,50 @@ export interface UserProfille {
 const cardSchema: Schema<UserProfille> = new Schema({
   profilePicture: {
     type: String,
-    required: true
+    // required: true
   },
   firstName: {
     type: String,
-    required: true
+    // required: true
   },
   lastName: {
     type: String,
-    required: true
+    // required: true
   },
   email: {
     type: String,
-    required: true,
-    // unique: true,
+    // required: true,
+    unique: true,
     lowercase: true,
     trim: true
   },
   contactPhone: {
     type: String,
-    required: true
+    // required: true
   },
   gender: {
     type: String,
-    required: true
+    // required: true
   },
   location: {
     type: String,
-    required: true
+    // required: true
   },
   dateOfBirth: {
     type: Date,
-    required: true
+    // required: true
   },
   nationality: {
     type: String,
-    required: true
+    // required: true
   },
   address: {
     type: String,
-    required: true
+    // required: true
   },
   educationBackground: {
     type: String,
-    required: true
+    // required: true
   }
 });
 
