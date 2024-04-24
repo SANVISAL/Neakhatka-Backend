@@ -4,6 +4,7 @@ export interface UserProfille {
   profilePicture: string;
   firstName: string;
   lastName: string;
+  email: string;
   contactPhone: string;
   gender: string;
   location: string;
@@ -25,6 +26,13 @@ const cardSchema: Schema<UserProfille> = new Schema({
   lastName: {
     type: String,
     required: true
+  },
+  email: {
+    type: String,
+    required: true,
+    // unique: true,
+    lowercase: true,
+    trim: true
   },
   contactPhone: {
     type: String,
