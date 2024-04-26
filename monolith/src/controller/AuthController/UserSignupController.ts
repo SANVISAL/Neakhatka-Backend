@@ -11,14 +11,14 @@ import {
   UploadedFile,
   Delete,
 } from "tsoa";
-import { SignUpService } from "../../service/AuthService/SignUpService";
+import AuthService from "../../service/AuthService/UserSignUpService";
 import { Auth, AuthModel } from "../../model/Auth";
 
 @Route("Cards")
-export class SignUpController extends Controller {
-  private signupservice: SignUpService;
+class AuthController extends Controller {
+  private signupservice: AuthService;
 
-  constructor(cardservice: SignUpService) {
+  constructor(cardservice: AuthService) {
     super();
     this.signupservice = cardservice;
   }
@@ -81,3 +81,5 @@ export class SignUpController extends Controller {
     }
   }
 }
+
+export default AuthController;

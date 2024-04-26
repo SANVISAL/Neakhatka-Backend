@@ -23,30 +23,14 @@ export class UserController extends Controller {
     super();
     this.userservice = userservice;
   }
-  //   @Post("/")
-  //   public async CreateUserController(
-  //     @Body() requestBody: any
-  //   ): Promise<any> {
-  //     try {
-  //       console.log("Request Body:", requestBody); // Logging request body
-  //       const {  userProfileData, email, password } = requestBody;
-  //       const newUser = await this.userservice.CreateUserService(
-  //          userProfileData,
-  //         email,
-  //         password
-  //       );
-  //       return newUser;
-  //     } catch (error) {
-  //       throw new Error(error);
-  //     }
-  //   }
-  // GET ALL USER
+
   @Get("/")
   public async GetAllUserController(): Promise<UserProfille[]> {
     return await this.userservice.GetAllProfileervice();
   }
   // GET USER BY ID
   @Get("/:id")
+  
   @SuccessResponse("200", "Successfully retrieved User")
   // @Response("404", "Card not found")
   public async GetCardById(@Path() id: string): Promise<any> {

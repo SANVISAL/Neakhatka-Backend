@@ -2,28 +2,7 @@ import { UserModel, UserProfille } from "../model/UserProfielModel";
 // import { EmailPassword, EmailPasswordModel } from "../model/EmailPasswordModel";
 
 export class UserRepository {
-  // repository for  create new card
-
-  // async CreateNewUser(
-  //   UserData: UserProfille,
-  //   email: string,
-  //   password: string
-  // ): Promise<{ userProfile: UserProfille}> {
-  //   try {
-  //     // user profile
-  //     const newuser = new UserModel(UserData);
-  //     const SaveUser = await newuser.save();
-  //     // email password
-  //     return {
-  //       userProfile: SaveUser.toObject(),
-  //     };
-  //   } catch (error) {
-  //     console.log("Error:", error); // Logging error
-  //     throw new Error(error);
-  //   }
-  // }
-
-  // get all cards
+  // get all user profile 
   async GetAllUserRepo(): Promise<UserProfille[]> {
     try {
       return await UserModel.find();
@@ -31,7 +10,7 @@ export class UserRepository {
       throw error;
     }
   }
-  // get card by id
+  // get profile by id
   async findById(id: string): Promise<UserProfille | null> {
     try {
       return await UserModel.findById(id);
@@ -39,7 +18,7 @@ export class UserRepository {
       console.log(error);
     }
   }
-  // update  card
+  // update profile
   async updateUser(
     id: string,
     updateData: Partial<UserProfille>
@@ -51,7 +30,7 @@ export class UserRepository {
     }
   }
 
-  // delete card
+  // delete profile
   async deleteUser(id: string): Promise<UserProfille | null> {
     try {
       return await UserModel.findByIdAndDelete(id);

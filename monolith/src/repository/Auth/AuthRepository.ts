@@ -1,6 +1,6 @@
 import { Auth, AuthModel } from "../../model/Auth";
 
-export class SignUpRepository {
+class AuthRepository {
   // repository for  create new card
 
   async CreateSignUP(SignUpData: Auth): Promise<Auth> {
@@ -50,3 +50,5 @@ export class SignUpRepository {
     }
   }
 }
+
+export default AuthRepository;

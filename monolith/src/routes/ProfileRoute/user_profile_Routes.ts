@@ -1,5 +1,5 @@
 import express, { Router, Request, Response, NextFunction } from "express";
-import { UserController } from "../../controller/UserController";
+import { UserController } from "../../controller/user_profile";
 import { UserRepository } from "../../repository/UserRepository";
 import { UserService } from "../../service/UserProfile/UserProfileService";
 
@@ -8,21 +8,8 @@ const userRepository = new UserRepository();
 const userService = new UserService(userRepository);
 const userController = new UserController(userService);
 
-// Userrouter.post(
-//   "/",
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     console.log("Hello User");
-//     try {
-//       const requestBody = req.body;
-//       const newUser=await userController.CreateUserController(requestBody); // Call the method on the controller instance
-//         res.json(newUser);
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
-// );
-// get all user
-Userrouter.get("/", async (req: Request, res: Response, next: NextFunction) => {
+// get all user profile 
+Userrouter.get("/all-profile", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const Response = await userController.GetAllUserController();
     res.send(Response);
@@ -30,20 +17,20 @@ Userrouter.get("/", async (req: Request, res: Response, next: NextFunction) => {
     console.log(error);
   }
 });
-// update user
+// update user profile
 Userrouter.put(
-  "/:id",
+  "/update-profile/:id",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const UserID = req.params.id;
       const UpdateData = req.body;
-      const updatedCard = await userController.UpdateUserController(
+      const updatedProfile = await userController.UpdateUserController(
         UserID,
         UpdateData
       );
 
-      if (updatedCard) {
-        res.status(200).json(updatedCard);
+      if (updatedProfile) {
+        res.status(200).json(updatedProfile);
       } else {
         res.status(404).json({ message: "User Not Found" });
       }
@@ -51,7 +38,7 @@ Userrouter.put(
   }
 );
 
-// get user by id
+// get user profile by id
 Userrouter.get(
   "/:id",
   async (req: Request, res: Response, next: NextFunction) => {
@@ -64,10 +51,10 @@ Userrouter.get(
   }
 );
 
-// delete user
+// delete user profile 
 
 Userrouter.delete(
-  "/:id",
+  "/delete-profile/:id",
   async (req: Request, res: Response, next: NextFunction) => {
     const CardID = req.params.id;
     try {
