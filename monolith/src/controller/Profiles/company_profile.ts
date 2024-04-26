@@ -11,31 +11,34 @@ import {
   // Response,
   Delete,
 } from "tsoa";
-import { UserService } from "../service/UserProfile/UserProfileService";
-import { UserModel, UserProfille } from "../model/UserProfielModel";
+import CompanyProfileService from "../../service/Profiles/CompanyProfileService";
+import {
+  CompanyModel,
+  ICompany,
+} from "../../model/ProfileModel/CompanyProfile";
 import { Request, Response, NextFunction } from "express";
 
 @Route("users")
-export class UserController extends Controller {
-  private userservice: UserService;
+export class Com_Profile_Controller extends Controller {
+  private com_profile_service: CompanyProfileService;
 
-  constructor(userservice: UserService) {
+  constructor(com_profile_service: CompanyProfileService) {
     super();
-    this.userservice = userservice;
+    this.com_profile_service = com_profile_service;
+  }
+  @Get("/")
+  public async GetAllCom_Profile(): Promise<ICompany[]> {
+    return await this.com_profile_service.GetAllProfiles();
   }
 
-  @Get("/")
-  public async GetAllUserController(): Promise<UserProfille[]> {
-    return await this.userservice.GetAllProfileervice();
-  }
   // GET USER BY ID
+
   @Get("/:id")
-  
   @SuccessResponse("200", "Successfully retrieved User")
   // @Response("404", "Card not found")
-  public async GetCardById(@Path() id: string): Promise<any> {
+  public async Get_Com_ProfileBy_Id(@Path() id: string): Promise<any> {
     try {
-      const User = await this.userservice.GetByIdService(id);
+      const User = await this.com_profile_service.GetProfileBy_Id(id);
       if (User) {
         return User;
       } else {
@@ -49,11 +52,11 @@ export class UserController extends Controller {
   // update card
 
   @Put("/:id")
-  public async UpdateUserController(
+  public async Update_Com_Profile(
     @Path() id: string,
-    @Body() UpdateData: Partial<UserProfille>
+    @Body() UpdateData: Partial<ICompany>
   ): Promise<any> {
-    const updateuser = await this.userservice.updateProfileService(
+    const updateuser = await this.com_profile_service.UpdateProfileBy_ID(
       id,
       UpdateData
     );
@@ -66,8 +69,8 @@ export class UserController extends Controller {
   }
   // delete USER by id
   @Delete("/:id")
-  public async DeleteUserContrioller(@Path() id: string): Promise<any> {
-    const deleteuser = await this.userservice.DeleteProfileService(id);
+  public async Delete_Com_Profile(@Path() id: string): Promise<any> {
+    const deleteuser = await this.com_profile_service.DeleteProfile(id);
     if (deleteuser) {
       return deleteuser;
     } else {

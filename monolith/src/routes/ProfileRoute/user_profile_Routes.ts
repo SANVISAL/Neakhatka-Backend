@@ -1,22 +1,25 @@
 import express, { Router, Request, Response, NextFunction } from "express";
-import { UserController } from "../../controller/user_profile";
-import { UserRepository } from "../../repository/UserRepository";
-import { UserService } from "../../service/UserProfile/UserProfileService";
+import { UserController } from "../../controller/Profiles/user_profile";
+import { UserRepository } from "../../repository/Profile/UserProfileRepository";
+import { UserService } from "../../service/Profiles/UserProfileService";
 
 const Userrouter: Router = express.Router();
 const userRepository = new UserRepository();
 const userService = new UserService(userRepository);
 const userController = new UserController(userService);
 
-// get all user profile 
-Userrouter.get("/all-profile", async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const Response = await userController.GetAllUserController();
-    res.send(Response);
-  } catch (error) {
-    console.log(error);
+// get all user profile
+Userrouter.get(
+  "/all-profile",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const Response = await userController.GetAllUserController();
+      res.send(Response);
+    } catch (error) {
+      console.log(error);
+    }
   }
-});
+);
 // update user profile
 Userrouter.put(
   "/update-profile/:id",
@@ -51,7 +54,7 @@ Userrouter.get(
   }
 );
 
-// delete user profile 
+// delete user profile
 
 Userrouter.delete(
   "/delete-profile/:id",

@@ -1,4 +1,4 @@
-import { Auth, AuthModel } from "../../model/Auth";
+import { Auth, AuthModel } from "../../model/AuthModel/UserAuth";
 
 class AuthRepository {
   // repository for  create new card

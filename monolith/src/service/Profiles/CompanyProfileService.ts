@@ -1,8 +1,8 @@
 import {
   CompanyModel,
   ICompany,
-} from "../../model/CompanyModel/CompanyProfile";
-import CompanyProfileRepository from "../../repository/CompanyProfileRepository";
+} from "../../model/ProfileModel/CompanyProfile";
+import CompanyProfileRepository from "../../repository/Profile/CompanyProfileRepository";
 import CompanyAuthService from "../AuthService/CompanyAuthService";
 
 class CompanyProfileService {

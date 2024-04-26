@@ -1,4 +1,7 @@
-import { CompanyAuth,CompanyAuthModel } from "../../model/CompanyModel/CompanyAuth";
+import {
+  CompanyAuth,
+  CompanyAuthModel,
+} from "../../model/AuthModel/CompanyAuth";
 
 class CompanyAuthRepository {
   // repository for  create new card
@@ -36,7 +39,9 @@ class CompanyAuthRepository {
     updateData: Partial<CompanyAuth>
   ): Promise<CompanyAuth | null> {
     try {
-      return await CompanyAuthModel.findByIdAndUpdate(id, updateData, { new: true });
+      return await CompanyAuthModel.findByIdAndUpdate(id, updateData, {
+        new: true,
+      });
     } catch (error) {
       throw error;
     }
@@ -51,4 +56,4 @@ class CompanyAuthRepository {
   }
 }
 
-export default CompanyAuthRepository
+export default CompanyAuthRepository;

@@ -1,7 +1,7 @@
-import { Auth, AuthModel } from "../../model/Auth";
-import AuthRepository from "../../repository/Auth/AuthRepository";
+import { Auth, AuthModel } from "../../model/AuthModel/UserAuth";
+import AuthRepository from "../../repository/Auth/userauthRepository";
 import { generateToken } from "../../utils/GenerateToken";
-import { VerificationModel } from "../../model/Verifycation";
+import { VerificationModel } from "../../model/VerifyModel/UserVerifycation";
 import bcrypt from "bcrypt";
 import { sendVerificationEmail } from "../../utils/sentemailverifytoken/sentverifyusertoken";
 

@@ -1,10 +1,13 @@
 import express, { Router, Request, Response, NextFunction } from "express";
 import AuthController from "../../controller/AuthController/UserSignupController";
 import AuthService from "../../service/AuthService/UserSignUpService";
-import AuthRepository from "../../repository/Auth/AuthRepository";
-import { VerificationModel } from "../../model/Verifycation";
-import { Auth, AuthModel } from "../../model/Auth";
-import { UserModel, UserProfille } from "../../model/UserProfielModel";
+import AuthRepository from "../../repository/Auth/userauthRepository";
+import { VerificationModel } from "../../model/VerifyModel/UserVerifycation";
+import { Auth, AuthModel } from "../../model/AuthModel/UserAuth";
+import {
+  UserModel,
+  UserProfille,
+} from "../../model/ProfileModel/UserProfielModel";
 
 const AuthRouter: Router = express.Router();
 

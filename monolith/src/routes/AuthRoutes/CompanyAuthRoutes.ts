@@ -1,13 +1,13 @@
 import express, { Router, Request, Response, NextFunction } from "express";
 import CompanyAuthController from "../../controller/AuthController/CompanyAuth";
 import CompanyAuthtService from "../../service/AuthService/CompanyAuthService";
-import CompanyAuthRepository from "../../repository/CompanyAuth/CompanyAuth";
+import CompanyAuthRepository from "../../repository/Auth/companyAuth";
 import {
   CompanyVerificationModel,
   CompanyVerification,
-} from "../../model/CompanyModel/CompanyVerifyEmail";
-import { CompanyModel } from "../../model/CompanyModel/CompanyProfile";
-import { CompanyAuthModel } from "../../model/CompanyModel/CompanyAuth";
+} from "../../model/VerifyModel/CompanyVerifyEmail";
+import { CompanyModel } from "../../model/ProfileModel/CompanyProfile";
+import { CompanyAuthModel } from "../../model/AuthModel/CompanyAuth";
 
 const companyauthrouter: Router = express.Router();
 const companyverifyRoute: Router = express.Router();

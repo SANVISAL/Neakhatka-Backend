@@ -1,13 +1,13 @@
 import {
   CompanyAuth,
   CompanyAuthModel,
-} from "../../model/CompanyModel/CompanyAuth";
-import  CompanyAuthRepository from "../../repository/CompanyAuth/CompanyAuth";
+} from "../../model/AuthModel/CompanyAuth";
+import CompanyAuthRepository from "../../repository/Auth/companyAuth";
 import { generateToken } from "../../utils/GenerateToken";
 import {
   CompanyVerificationModel,
   CompanyVerification,
-} from "../../model/CompanyModel/CompanyVerifyEmail";
+} from "../../model/VerifyModel/CompanyVerifyEmail";
 import crypto from "crypto"; // Import crypto for token generation
 import bcrypt from "bcrypt";
 import { sendVerificationcomapnyEmail } from "../../utils/sentemailverifytoken/sentverifycompanytoken";
@@ -38,7 +38,10 @@ class CompanyAuthService {
         expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
       });
       await newVerification.save();
-      await sendVerificationcomapnyEmail(SignUpData.email, newVerification.token);
+      await sendVerificationcomapnyEmail(
+        SignUpData.email,
+        newVerification.token
+      );
       return {
         status: "Succecss",
         message: "Sign Up Successfully",
@@ -86,5 +89,4 @@ class CompanyAuthService {
   }
 }
 
-
-export default CompanyAuthService
+export default CompanyAuthService;

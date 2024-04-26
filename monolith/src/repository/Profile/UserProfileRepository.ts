@@ -1,8 +1,11 @@
-import { UserModel, UserProfille } from "../model/UserProfielModel";
+import {
+  UserModel,
+  UserProfille,
+} from "../../model/ProfileModel/UserProfielModel";
 // import { EmailPassword, EmailPasswordModel } from "../model/EmailPasswordModel";
 
 export class UserRepository {
-  // get all user profile 
+  // get all user profile
   async GetAllUserRepo(): Promise<UserProfille[]> {
     try {
       return await UserModel.find();

@@ -1,4 +1,7 @@
-import { CompanyModel,ICompany } from "../model/CompanyModel/CompanyProfile";
+import {
+  CompanyModel,
+  ICompany,
+} from "../../model/ProfileModel/CompanyProfile";
 // import { EmailPassword, EmailPasswordModel } from "../model/EmailPasswordModel";
 
 class CompanyProfileRepository {
@@ -26,7 +29,9 @@ class CompanyProfileRepository {
     updateData: Partial<ICompany>
   ): Promise<ICompany | null> {
     try {
-      return await CompanyModel.findByIdAndUpdate(id, updateData, { new: true });
+      return await CompanyModel.findByIdAndUpdate(id, updateData, {
+        new: true,
+      });
     } catch (error) {
       throw error;
     }
@@ -41,6 +46,5 @@ class CompanyProfileRepository {
     }
   }
 }
-
 
 export default CompanyProfileRepository;

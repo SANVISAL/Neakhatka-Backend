@@ -12,7 +12,7 @@ import {
   Delete,
 } from "tsoa";
 import AuthService from "../../service/AuthService/UserSignUpService";
-import { Auth, AuthModel } from "../../model/Auth";
+import { Auth, AuthModel } from "../../model/AuthModel/UserAuth";
 
 @Route("Cards")
 class AuthController extends Controller {
