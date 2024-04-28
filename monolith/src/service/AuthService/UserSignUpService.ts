@@ -1,26 +1,22 @@
-import { Auth, AuthModel } from "../../model/Auth";
-import { SignUpRepository } from "../../repository/Auth/SignUpRepository";
+import { Auth, AuthModel } from "../../model/AuthModel/UserAuth";
+import AuthRepository from "../../repository/Auth/userauthRepository";
 import { generateToken } from "../../utils/GenerateToken";
-import { Verification, VerificationModel } from "../../model/Verifycation";
-import crypto from "crypto"; // Import crypto for token generation
+import { VerificationModel } from "../../model/VerifyModel/UserVerifycation";
 import bcrypt from "bcrypt";
-import { sendVerificationEmail } from "../../utils/sentemailverifytoken/sentverifytoken";
+import { sendVerificationEmail } from "../../utils/sentemailverifytoken/sentverifyusertoken";
 
-
-export class SignUpService {
-  private signupRepository: SignUpRepository;
-  constructor(cardRepository: SignUpRepository) {
+class AuthService {
+  private signupRepository: AuthRepository;
+  constructor(cardRepository: AuthRepository) {
     this.signupRepository = cardRepository;
   }
   // service create sign up
   async CreateSignupService(SignUpData: Auth): Promise<any> {
     try {
-
       // hash password
-
-      if(SignUpData.password){
-        const hashpassword = await bcrypt.hash(SignUpData.password,10)
-        SignUpData.password= hashpassword
+      if (SignUpData.password) {
+        const hashpassword = await bcrypt.hash(SignUpData.password, 10);
+        SignUpData.password = hashpassword;
       }
       const user_signup = new AuthModel(SignUpData);
       const new_Sign_Up = await user_signup.save();
@@ -35,7 +31,7 @@ export class SignUpService {
         expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
       });
       await newVerification.save();
-      await sendVerificationEmail(SignUpData.email,newVerification.token)
+      await sendVerificationEmail(SignUpData.email, newVerification.token);
       return {
         status: "Succecss",
         message: "Sign Up Successfully",
@@ -82,3 +78,5 @@ export class SignUpService {
     }
   }
 }
+
+export default AuthService;
