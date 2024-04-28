@@ -10,7 +10,7 @@ import { CompanyModel } from "../../model/ProfileModel/CompanyProfile";
 import { CompanyAuthModel } from "../../model/AuthModel/CompanyAuth";
 
 const companyauthrouter: Router = express.Router();
-const companyverifyRoute: Router = express.Router();
+// const companyverifyRoute: Router = express.Router();
 const authRepository = new CompanyAuthRepository();
 const authService = new CompanyAuthtService(authRepository);
 const authController = new CompanyAuthController(authService);

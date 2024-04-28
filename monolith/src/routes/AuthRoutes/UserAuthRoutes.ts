@@ -8,8 +8,18 @@ import {
   UserModel,
   UserProfille,
 } from "../../model/ProfileModel/UserProfielModel";
-
+import resendVerificationToken from "../../utils/resentverifytoken/resendVerificationToken";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import axios from "axios";
 const AuthRouter: Router = express.Router();
+
+///////////////////
+const CLIENT_ID =
+  "97636232967-bji9b16dm6ea44oipv2ouchpq7evk13p.apps.googleusercontent.com";
+const CLIENT_SECRET = "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";
+const REDIRECT_URI = "http://localhost:8080/auth/google/callback";
+//////////////////
 
 // Define Sign Up Controller
 const signupRepository = new AuthRepository();
@@ -100,6 +110,7 @@ AuthRouter.post(
 // 2.2 No: Send Message "User need to check email"
 // 3. Modify isVerified to true
 // 4. Publish authDetail (firstname, lastname) to User Service
+
 AuthRouter.get("/verify/:token", async (req, res) => {
   try {
     const { token } = req.params;
@@ -146,8 +157,21 @@ AuthRouter.get("/verify/:token", async (req, res) => {
         address: "",
         educationBackground: "",
       });
+      const newUserProfile = await UserModel.findOne({
+        email: authDetail.email,
+      });
+      // create JWT
+      const JWTpayload = { userid: newUserProfile._id };
+      const jwtSecret = "sal2302"; // Replace with your secret key
+      const jwtOptions = { expiresIn: "1h" }; // Token expires in 1 hour
+      const jwttoken = jwt.sign(JWTpayload, jwtSecret, jwtOptions);
+      console.log(jwttoken);
+
       console.log("Create User Profile Successfully");
-      return res.send("Email verified successfully");
+      return res.json({
+        token: jwttoken,
+        message: "Email verified successfully",
+      });
     }
     console.log("User Profile with this email already created");
     res.send("This email used before!!!!");
@@ -155,6 +179,91 @@ AuthRouter.get("/verify/:token", async (req, res) => {
     console.error("Error verifying email:", error);
     res.status(500).send("Error verifying email");
   }
+});
+
+// re-verify token
+AuthRouter.post("/reverify", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    // Call the resendVerificationToken function
+    const result = await resendVerificationToken(email);
+
+    // Handle the result
+    if (result.status === "Success") {
+      return res.status(200).send(result.message);
+    } else {
+      return res.status(404).send(result.message);
+    }
+  } catch (error) {
+    console.error("Error re-verifying email:", error);
+    res.status(500).send("Error re-verifying email");
+  }
+});
+
+// login rout
+
+AuthRouter.post("/login", async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+    // check email
+    const Email = await AuthModel.findOne({ email });
+    // check password
+    const passwordMatch = await bcrypt.compare(password, Email.password);
+    if (!Email && !passwordMatch) {
+      return res.status(401).json({ message: "Incorrect email or password" });
+    } else {
+      return res.status(200).json({ message: "login successfully" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+///  login with google
+// Initiates the Google Login flow
+AuthRouter.get("/google", (req: Request, res: Response) => {
+  const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=profile email`;
+  res.redirect(url);
+});
+
+// Callback URL for handling the Google Login response
+AuthRouter.get("/auth/google/callback", async (req: Request, res: Response) => {
+  const { code } = req.query;
+
+  try {
+    // Exchange authorization code for access token
+    const { data } = await axios.post("https://oauth2.googleapis.com/token", {
+      client_id: CLIENT_ID,
+      client_secret: CLIENT_SECRET,
+      code,
+      redirect_uri: REDIRECT_URI,
+      grant_type: "authorization_code",
+    });
+
+    const { access_token, id_token } = data;
+
+    // Use access_token or id_token to fetch user profile
+    const { data: profile } = await axios.get(
+      "https://www.googleapis.com/oauth2/v1/userinfo",
+      {
+        headers: { Authorization: `Bearer ${access_token}` },
+      }
+    );
+
+    // Code to handle user authentication and retrieval using the profile data
+
+    res.redirect("/");
+  } catch (error) {
+    console.error("Error:", error.response.data.error);
+    res.redirect("/login");
+  }
+});
+
+// Logout route
+AuthRouter.get("/logout", (req: Request, res: Response) => {
+  // Code to handle user logout
+  res.redirect("/login");
 });
 
 export default AuthRouter;

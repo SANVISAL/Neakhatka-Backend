@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
-export interface UserProfille {
+export interface UserProfille extends Document{
+  _id: mongoose.Types.ObjectId;
   profilePicture: string;
   firstName: string;
   lastName: string;
