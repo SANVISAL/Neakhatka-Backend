@@ -4,7 +4,7 @@
   "main": " server.ts",
   "scripts": {
     "test": "jest --runInBand --detectOpenHandles",
-    "serve": "nodemon ./src/server.ts",
+    "local": "nodemon ./src/server.ts",
     "build": "tsc",
     "swagger": "tsoa spec",
     "swagger:watch": "nodemon --watch 'src/**/*' --exec 'yarn swagger'",
