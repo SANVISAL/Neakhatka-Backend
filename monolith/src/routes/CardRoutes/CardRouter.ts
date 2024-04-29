@@ -9,7 +9,7 @@ const cardService = new CardService(cardRepository);
 const cardController = new CardController(cardService);
 
 Cardrouter.post(
-  "/",
+  "/create",
   async (req: Request, res: Response, next: NextFunction) => {
     console.log("Hello Card");
     try {
@@ -44,7 +44,7 @@ Cardrouter.get(
 );
 // update card
 Cardrouter.put(
-  "/:id",
+  "update-card/:id",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const CardID = req.params.id;
@@ -66,7 +66,7 @@ Cardrouter.put(
 // delete card
 
 Cardrouter.delete(
-  "/:id",
+  "delete-card/:id",
   async (req: Request, res: Response, next: NextFunction) => {
     const CardID = req.params.id;
     try {

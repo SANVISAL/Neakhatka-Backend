@@ -13,6 +13,7 @@ export interface UserProfille extends Document{
   nationality: string;
   address: string;
   educationBackground: string;
+  favoriteCards: mongoose.Types.ObjectId[]; // Array of card IDs
 }
 
 const cardSchema: Schema<UserProfille> = new Schema({
@@ -62,7 +63,8 @@ const cardSchema: Schema<UserProfille> = new Schema({
   educationBackground: {
     type: String,
     // required: true
-  }
+  },
+  favoriteCards: [{ type: mongoose.Types.ObjectId, ref: 'Card' }] 
 });
 
 const UserModel: Model<UserProfille> = mongoose.model<UserProfille>('UserModel', cardSchema);

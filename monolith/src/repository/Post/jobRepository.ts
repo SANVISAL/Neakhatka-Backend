@@ -1,5 +1,4 @@
-import { JobModel } from "../../model/Post/Job";
-import { IJob } from "../../model/Post/Job";
+import { JobModel,IJob } from "../../model/Post/Job";
 
 export class JobRepository {
   private jobModel = new JobModel();
