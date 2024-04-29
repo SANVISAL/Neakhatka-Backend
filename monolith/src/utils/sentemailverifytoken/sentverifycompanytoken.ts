@@ -1,7 +1,7 @@
 // utils/sendEmail.ts
 import nodemailer from "nodemailer";
 
-export async function sendVerificationEmail(
+export async function sendVerificationcomapnyEmail(
   email: string,
   token: string
 ): Promise<void> {
@@ -27,7 +27,7 @@ export async function sendVerificationEmail(
       from: "sanvisal2302@gmail.com",
       to: email,
       subject: "Email Verification",
-      text: `Hello,\n\nPlease verify your email by clicking the following link: \n\nhttp://localhost:5000/verify/${token}\n\n`,
+      text: `Hello,\n\nPlease verify your email by clicking the following link: \n\nhttp://localhost:5000/company-auth/verify/${token}\n\n`,
     });
 
     console.log("Email sent: Check your inbox!");

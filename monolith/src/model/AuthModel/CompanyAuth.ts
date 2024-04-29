@@ -1,20 +1,15 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
-export interface Auth {
-  firstName: string;
-  lastName: string;
+export interface CompanyAuth {
+  CompanyName: string;
   email: string;
   password: string;
   role: string;
   isVerified?: boolean;
 }
 
-const authSchema: Schema<Auth> = new Schema({
-  firstName: {
-    type: String,
-    required: true
-  },
-  lastName: {
+const comapanyauthSchema: Schema<CompanyAuth> = new Schema({
+    CompanyName: {
     type: String,
     required: true
   },
@@ -32,7 +27,7 @@ const authSchema: Schema<Auth> = new Schema({
   role: {
     type: String,
     required: true,
-    enum: ['admin', 'user', 'guest'],
+    enum: ['admin', 'user', 'guest','seeker'],
     default: 'user'
   },
   isVerified: {
@@ -41,6 +36,6 @@ const authSchema: Schema<Auth> = new Schema({
   }
 });
 
-const AuthModel: Model<Auth & Document> = mongoose.model<Auth & Document>('AuthModel', authSchema);
+const CompanyAuthModel: Model<CompanyAuth & Document> = mongoose.model<CompanyAuth & Document>('CompanyAuthModel', comapanyauthSchema);
 
-export { AuthModel };
+export { CompanyAuthModel };
