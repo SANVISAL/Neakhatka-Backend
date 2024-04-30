@@ -83,7 +83,7 @@ export const deleteJob = async (
     if (!deletedJob) {
       res.status(404).json({ message: "Job not found" });
     } else {
-      res.status(204).json({ message: "Job deleted successfully" });
+      res.status(201).json({ message: "Job deleted successfully" });
     }
   } catch (error) {
     next(error);

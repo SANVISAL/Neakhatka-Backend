@@ -30,6 +30,7 @@
     "typescript": "^5.4.3"
   },
   "dependencies": {
+    "@types/axios": "^0.14.0",
     "@types/joi": "^17.2.3",
     "@types/mongoose": "^5.11.97",
     "@types/passport": "^1.0.16",
