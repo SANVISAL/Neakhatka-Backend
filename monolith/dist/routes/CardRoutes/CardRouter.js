@@ -22,7 +22,7 @@ exports.Cardrouter = Cardrouter;
 const cardRepository = new CardRepository_1.CardRepository();
 const cardService = new CardService_1.CardService(cardRepository);
 const cardController = new CardController_1.CardController(cardService);
-Cardrouter.post("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+Cardrouter.post("/create", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("Hello Card");
     try {
         const requestBody = req.body;
@@ -32,62 +32,55 @@ Cardrouter.post("/", (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     catch (error) {
         next(error);
     }
-})
-// );
-// // get all card
-// Cardrouter.get("/", async (req: Request, res: Response, next: NextFunction) => {
-//   try {
-//     const Response = await cardController.GetAllCardController();
-//     res.send(Response);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
-// // get card by id
-// Cardrouter.get(
-//   "/:id",
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const card = await cardController.GetCardById(req.params.id);
-//       res.send(card);
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
-// );
-// // update card
-// Cardrouter.put(
-//   "/:id",
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const CardID = req.params.id;
-//       const UpdateData = req.body;
-//       const updatedCard = await cardController.UpdateCardController(
-//         CardID,
-//         UpdateData
-//       );
-//       if (updatedCard) {
-//         res.status(200).json(updatedCard);
-//       } else {
-//         res.status(404).json({ message: "Card Not Found" });
-//       }
-//     } catch (error) {}
-//   }
-// );
-// // delete card
-// Cardrouter.delete(
-//   "/:id",
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     const CardID = req.params.id;
-//     try {
-//       const cardDelete = await cardController.DeleteCardContrioller(CardID);
-//       if (!cardDelete) {
-//         res.status(404).json({ message: "Card Not Found" });
-//       } else {
-//         res.status(200).json({ message: "Card deleted" });
-//       }
-//     } catch (error) {
-//       next(error);
-//     }
-//   }
-);
+}));
+// get all card
+Cardrouter.get("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const Response = yield cardController.GetAllCardController();
+        res.send(Response);
+    }
+    catch (error) {
+        console.log(error);
+    }
+}));
+// get card by id
+Cardrouter.get("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const card = yield cardController.GetCardById(req.params.id);
+        res.send(card);
+    }
+    catch (error) {
+        console.log(error);
+    }
+}));
+// update card
+Cardrouter.put("update-card/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const CardID = req.params.id;
+        const UpdateData = req.body;
+        const updatedCard = yield cardController.UpdateCardController(CardID, UpdateData);
+        if (updatedCard) {
+            res.status(200).json(updatedCard);
+        }
+        else {
+            res.status(404).json({ message: "Card Not Found" });
+        }
+    }
+    catch (error) { }
+}));
+// delete card
+Cardrouter.delete("delete-card/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const CardID = req.params.id;
+    try {
+        const cardDelete = yield cardController.DeleteCardContrioller(CardID);
+        if (!cardDelete) {
+            res.status(404).json({ message: "Card Not Found" });
+        }
+        else {
+            res.status(200).json({ message: "Card deleted" });
+        }
+    }
+    catch (error) {
+        next(error);
+    }
+}));
