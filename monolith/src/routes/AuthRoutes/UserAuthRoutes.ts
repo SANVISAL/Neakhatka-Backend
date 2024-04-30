@@ -15,10 +15,9 @@ import axios from "axios";
 const AuthRouter: Router = express.Router();
 
 ///////////////////
-const CLIENT_ID =
-  "97636232967-bji9b16dm6ea44oipv2ouchpq7evk13p.apps.googleusercontent.com";
-const CLIENT_SECRET = "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";
-const REDIRECT_URI = "http://localhost:8080/auth/google/callback";
+const CLIENT_ID = '630367907506-fe23t219he7hbt7av8am0enn41da1rh4.apps.googleusercontent.com';
+const CLIENT_SECRET = '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';
+const REDIRECT_URI = 'http://localhost:8080/auth/google/callback';
 //////////////////
 
 // Define Sign Up Controller
@@ -225,7 +224,7 @@ AuthRouter.post("/login", async (req: Request, res: Response) => {
 AuthRouter.get("/google", (req: Request, res: Response) => {
   const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=profile email`;
   res.redirect(url);
-});
+});   
 
 // Callback URL for handling the Google Login response
 AuthRouter.get("/auth/google/callback", async (req: Request, res: Response) => {
