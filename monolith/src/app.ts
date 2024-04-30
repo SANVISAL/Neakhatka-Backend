@@ -16,6 +16,7 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // Global Routes
+
 // auth routes
 app.use("/auth", AuthRouter);
 app.use("/company-auth", companyauthrouter);
@@ -28,6 +29,8 @@ app.use("/api/favorite-cards",favoriterouter)
 
 // // 6. route company verify token
 // app.use("/companyverify", companyverifyRoute);
+
+app.use("/api", jobRouter);
 
 // . swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
