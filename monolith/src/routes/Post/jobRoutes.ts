@@ -7,12 +7,12 @@ import {
   deleteJob,
 } from "../../controller/Post/jobController";
 
-const router = express.Router();
+const jobRouter = express.Router();
 
-router.post("/", createJob);
-router.get("/", getAllJobs);
-router.get("/:id", getJobById);
-router.put("/:id", updateJob);
-router.delete("/:id", deleteJob);
+jobRouter.post("/job", createJob);
+jobRouter.get("/job", getAllJobs);
+jobRouter.get("/job/:id", getJobById);
+jobRouter.put("/job/:id", updateJob);
+jobRouter.delete("/job/:id", deleteJob);
 
-export default router;
+export default jobRouter;
