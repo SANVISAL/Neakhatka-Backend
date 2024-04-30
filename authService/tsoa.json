@@ -1,0 +1,13 @@
+{
+    "entryFile": "./src/server.ts",
+    "controllerPathGlobs": ["./src/controller/**/*.ts"],
+    "spec": {
+        "outputDirectory": "public",
+      "specVersion": 3,
+      "entryFile": "./src/server.ts"
+    },
+    "routes": {
+      "basePath": "/api"
+    }
+  }
+  
