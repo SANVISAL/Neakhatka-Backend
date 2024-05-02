@@ -1,0 +1,23 @@
+import express from "express"
+import hpp from "hpp";
+import helmet from "helmet";
+import cors from"cors"
+import getConfig from "./utils/config";
+
+
+const app = express();
+
+app.set("trust proxy", 1);
+
+app.use(hpp());
+app.use(helmet());
+app.use(
+  cors({
+    origin: getConfig().apiGateway,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  })
+);
+app.use(express.static("public"));
+
+export default app;
