@@ -7,6 +7,7 @@ import { Userrouter } from "./routes/ProfileRoute/user_profile_Routes";
 import { com_profile_router } from "./routes/ProfileRoute/com_profile_Route";
 import favoriterouter from "./routes/FavoriteCard_Route/Favorite.routes";
 import { Cardrouter } from "./routes/CardRoutes/CardRouter";
+import jobRouter from "./routes/Post/jobRoutes";
 const app: Application = express();
 
 // Serve static files from the public directory

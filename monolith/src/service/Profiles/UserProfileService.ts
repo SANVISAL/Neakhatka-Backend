@@ -9,19 +9,6 @@ export class UserService {
   constructor(userRepository: UserRepository) {
     this.userRepository = userRepository;
   }
-
-  //   async CreateCardService(CardData: UserProfille): Promise<any> {
-  //     try {
-  //       await this.cRepository.CreateNewCard(CardData);
-  //       return {
-  //         status: "Succecss",
-  //         message: "Card Create Successfully",
-  //       };
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  // get all cards
   async GetAllProfileervice(): Promise<UserProfille[]> {
     try {
       return await this.userRepository.GetAllUserRepo();

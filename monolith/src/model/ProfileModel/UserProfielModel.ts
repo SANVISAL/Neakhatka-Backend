@@ -1,6 +1,6 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
+import mongoose, { Schema, Document, Model } from "mongoose";
 
-export interface UserProfille extends Document{
+export interface UserProfille extends Document {
   _id: mongoose.Types.ObjectId;
   profilePicture: string;
   firstName: string;
@@ -34,7 +34,7 @@ const cardSchema: Schema<UserProfille> = new Schema({
     // required: true,
     unique: true,
     lowercase: true,
-    trim: true
+    trim: true,
   },
   contactPhone: {
     type: String,
@@ -64,9 +64,12 @@ const cardSchema: Schema<UserProfille> = new Schema({
     type: String,
     // required: true
   },
-  favoriteCards: [{ type: mongoose.Types.ObjectId, ref: 'Card' }] 
+  favoriteCards: [{ type: mongoose.Types.ObjectId, ref: "Card" }],
 });
 
-const UserModel: Model<UserProfille> = mongoose.model<UserProfille>('UserModel', cardSchema);
+const UserModel: Model<UserProfille> = mongoose.model<UserProfille>(
+  "UserModel",
+  cardSchema
+);
 
 export { UserModel };
