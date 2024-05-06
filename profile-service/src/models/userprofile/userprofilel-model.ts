@@ -1,6 +1,6 @@
 import mongoose, { Schema, Model } from "mongoose";
 
-export interface IUserProfille  {
+export interface IUserProfille {
   _id: mongoose.Types.ObjectId;
   profilePicture: string;
   firstName: string;

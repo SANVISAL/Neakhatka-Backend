@@ -1,9 +1,9 @@
-import express from "express"
+import express from "express";
 import hpp from "hpp";
 import helmet from "helmet";
-import cors from"cors"
+import cors from "cors";
 import getConfig from "./utils/config";
-
+import { RegisterRoutes } from "./routes/v1/routes";
 
 const app = express();
 
@@ -18,6 +18,7 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
 );
+RegisterRoutes(app)
 app.use(express.static("public"));
 
 export default app;

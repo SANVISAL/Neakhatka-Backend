@@ -1,18 +1,18 @@
 import {
   Body,
   Controller,
-//   Get,
+  //   Get,
   Route,
   Path,
   SuccessResponse,
-//   Put,
+  //   Put,
   Post,
   // Response,
-//   Delete,
+  //   Delete,
 } from "tsoa";
 import { UserService } from "../../service/userService/userProfileService";
 import { IUserProfille } from "../../models/userprofile/userprofilel-model";
-import ROUTE_PATHS from "../../routes/useProfile.Route";
+import ROUTE_PATHS from "../../routes/v1/useProfile.Route";
 @Route("/v1/users")
 export class UserController extends Controller {
   private userservice: UserService;

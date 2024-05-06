@@ -2,14 +2,13 @@ import mongoose from "mongoose";
 import { logger } from "../../utils/logger";
 
 class ConnectToMongoDB {
-  private static instance :ConnectToMongoDB;
+  private static instance: ConnectToMongoDB;
   private monogourl: string = "";
   // private db= mongoose.connection;
 
-  
   public static getInstance(): ConnectToMongoDB {
     if (!ConnectToMongoDB.instance) {
-        ConnectToMongoDB.instance = new ConnectToMongoDB();
+      ConnectToMongoDB.instance = new ConnectToMongoDB();
     }
 
     return ConnectToMongoDB.instance;
@@ -24,8 +23,6 @@ class ConnectToMongoDB {
       logger.error("Initial MongoDB connection error", { err });
     }
   }
-
-  
 }
 
 export { ConnectToMongoDB };

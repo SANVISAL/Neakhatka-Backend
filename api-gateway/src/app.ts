@@ -17,6 +17,7 @@ import express, {
   import getConfig from "./utils/createCofig";
   import { verifyUser } from "./middleware/auth-middleware"
   import unless from "./middleware/unless-route";
+  import { RegisterRoutes } from "./routes/routs";
   
   const app = express();
   
@@ -67,12 +68,12 @@ import express, {
   // ===================
   // Gateway Health Routes
   // ===================
-  // RegisterRoutes(app);
+  RegisterRoutes(app);
   
   // ===================
   // JWT Middleware
   // ===================
-  app.use(unless('/v1/auth', verifyUser))
+  app.use(unless('/v1/user', verifyUser))
   
   // ===================
   // Proxy Routes

@@ -8,7 +8,7 @@
     },
     "routes": {
       "basePath": "/api",
-      "routesDir": "src/useProfile.Route" 
+      "routesDir": "src/routes/v1"
     }
   }
   

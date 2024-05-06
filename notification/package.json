@@ -8,6 +8,8 @@
     "start:prod": "pm2 start ./build/src/server.js -i 5 --attach --watch",
     "stop": "pm2 stop all",
     "delete": "pm2 delete all",
+    "gen:spec": "tsoa spec",
+    "gen:routes": "tsoa routes",
     "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json && ts-node tools/copyAssets.ts",
     "test": "cross-env NODE_ENV=testing jest --coverage=true --detectOpenHandles --watchAll=false"
   },

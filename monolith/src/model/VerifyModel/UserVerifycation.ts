@@ -1,10 +1,10 @@
 import mongoose, { Schema, Document, Model, ObjectId } from 'mongoose';
 
 export interface Verification {
-  userId: ObjectId; // Use ObjectId type explicitly
-  token: string;
-  createdAt: Date;
-  expiresAt: Date;
+    userId: ObjectId; // Use ObjectId type explicitly
+    token: string;
+    createdAt: Date;
+    expiresAt: Date;
 }
 
 const verificationSchema: Schema<Verification> = new Schema({
