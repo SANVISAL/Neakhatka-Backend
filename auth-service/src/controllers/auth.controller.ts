@@ -4,6 +4,8 @@ import UserService from "../service/user.service";
 import { publicDirectMessage } from "../queues/auth.producer";
 import { authChannel } from "../server";
 import { generateSignature } from "../utils/jwt";
+import { IAuthUserMessageDetails } from "../queues/@types/auth.type";
+
 interface SignUpRequestBody {
   firstname: string;
   lastname: string;
@@ -11,6 +13,11 @@ interface SignUpRequestBody {
   password: string;
   role: string;
 }
+
+// interface LoginRequestBody {
+//   email: string;
+//   password: string;
+// }
 
 @Route("/v1/auth")
 export class AuthController {
@@ -58,34 +65,68 @@ export class AuthController {
   // verify email
 
   @Get(ROUTE_PATH.AUTH.VERIFY)
-  public async VerifyEmail(
-    @Query() token: string
-  ): Promise<void> {  // Using Response type for more flexible error handling.
+  public async VerifyEmail(@Query() token: string): Promise<void> {
+    // Using Response type for more flexible error handling.
     try {
       const userService = new UserService();
       const user = await userService.VerifivationToken({ token });
-  
+
       // Check if the user does not exist or other types of errors
       if (typeof user === "string") {
         console.log("User does not exist.");
         // return "User not found"; // Change this depending on your actual environment
       }
-  
+
       const jwtToken = await generateSignature({ userID: user._id.toString() });
-      const UserDetail = await userService.FindUserByEmail({ email: user.email });
-  
+      const UserDetail = await userService.FindUserByEmail({
+        email: user.email,
+      });
+
       // Assuming UserDetail usage here
       if (!UserDetail) {
         console.log("User details not found.");
         // return { status: 404, json: { message: "User details not found" } }; // Adjust as needed
       }
-  
+      const messageDetail: IAuthUserMessageDetails = {
+        firstname: UserDetail?.firstname,
+        lastname: UserDetail?.lastname,
+        email: UserDetail?.email,
+        type: "auth",
+      };
+      await publicDirectMessage(
+        authChannel,
+        "Microsample-user-update",
+        "user-applier",
+        JSON.stringify(messageDetail),
+        "User details Sent to user server"
+      );
+
       // If all goes well
       // return { status: 200, json: { message: "Verification successful", token: jwtToken } }; // Adjust return type accordingly
-      console.log("verify success",jwtToken)
+      console.log("verify success", jwtToken);
     } catch (error) {
       console.log("An error occurred: ", error);
       // return { status: 500, json: { message: "Internal Server Error" } }; // Generic error handling
+    }
+  }
+
+  // login
+  @Get(ROUTE_PATH.AUTH.LOGIN)
+  public async loginWithEmail(
+    @Query() email: string,
+    @Query() password: string
+  ): Promise<{ token: string }> {
+    try {
+      // const { email, password } = requestBody;
+      const userService = new UserService();
+      const jwtToken = await userService.Login({
+        email,
+        password,
+      });
+      return { token: jwtToken };
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
   }
 }

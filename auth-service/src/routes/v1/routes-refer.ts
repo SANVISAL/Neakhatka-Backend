@@ -3,5 +3,6 @@ export const ROUTE_PATH = {
     BASE: "/v1/auth",
     SIGN_UP: "/signup",
     VERIFY: "/verify",
+    LOGIN: "/login"
   },
 };

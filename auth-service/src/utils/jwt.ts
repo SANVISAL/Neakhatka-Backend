@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 import { privatekey } from "../server";
 import jwt from "jsonwebtoken";
 import getConfig from "./config";
-
 export const generatePassword = async (password: string) => {
   try {
     const salt = 10;
@@ -11,6 +10,16 @@ export const generatePassword = async (password: string) => {
     console.log(error);
   }
 };
+
+export const ValidatePassword = async(
+  {
+   enterpassword,
+   savedPassword
+  }:{
+  enterpassword:string,
+  savedPassword:string})=>{
+    return (await generatePassword(enterpassword)) === savedPassword;
+  }
 
 export const generateSignature = async(payload: object):Promise<string>=>{
   try{

@@ -73,7 +73,7 @@ import express, {
   // ===================
   // JWT Middleware
   // ===================
-  app.use(unless('/v1/user', verifyUser))
+  app.use(unless('/v1/auth', verifyUser))
   
   // ===================
   // Proxy Routes

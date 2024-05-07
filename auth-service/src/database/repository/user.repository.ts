@@ -1,8 +1,9 @@
+// import { string } from "zod";
 import { UserSignUpResult } from "../../service/@types/user.service.type";
 import AuthModel from "../model/user.repository";
 import {
   UserCreateRepository,
-  //   UserUpdateRepository,
+  UserUpdateRepository,
 } from "./@types/user.repository.type";
 
 class UserRepository {
@@ -31,14 +32,33 @@ class UserRepository {
       console.log(error);
     }
   }
-  
-  async FinduserByID({id}:{id:string}){
-    try{
+
+  async FinduserByID({ id }: { id: string }) {
+    try {
       const existedUser = await AuthModel.findById(id);
-      return existedUser
-    }catch(error){
-      console.log("Unable to Fine user in database")
+      return existedUser;
+    } catch (error) {
+      console.log("Unable to Fine user in database");
     }
+  }
+  // update user
+  async UpdateUserById({
+    id,
+    update,
+  }: {
+    id: string;
+    update: UserUpdateRepository;
+  }) {
+    try {
+      const isExist = await this.FinduserByID({ id });
+      if (!isExist) {
+        return "User not Exist";
+      }
+      const newUserUpdate = await AuthModel.findByIdAndUpdate(id, update, {
+        new: true,
+      });
+      return newUserUpdate;
+    } catch (error) {}
   }
 }
 

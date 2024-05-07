@@ -11,6 +11,6 @@ export interface UserUpdateRepository {
   firstname?: string;
   lastname?: string;
   password?: string;
-  role: string;
+  role?: string;
   googleId?: string;
 }

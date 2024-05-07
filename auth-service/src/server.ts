@@ -6,7 +6,7 @@ import fs from 'fs';
 import  path  from "path";
 // import getConfig from "./utils/config";
 import { createQuesueConnection } from "./queues/connection";
-const port = 5000;
+const port = 4001;
 export let authChannel :Channel;
 export const privatekey = fs.readFileSync(path.join(__dirname,"../private_key.pem"))
 
