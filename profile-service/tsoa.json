@@ -7,7 +7,7 @@
       "entryFile": "./src/server.ts"
     },
     "routes": {
-      "basePath": "/api",
+      "basePath": "/",
       "routesDir": "src/routes/v1"
     }
   }

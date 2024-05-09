@@ -7,13 +7,10 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"mongoose.Types.ObjectId": {
-				"type": "string"
-			},
-			"IUserProfille": {
+			"IUserDocument": {
 				"properties": {
 					"_id": {
-						"$ref": "#/components/schemas/mongoose.Types.ObjectId"
+						"type": "string"
 					},
 					"profilePicture": {
 						"type": "string"
@@ -51,85 +48,31 @@
 					},
 					"favoriteCards": {
 						"items": {
-							"$ref": "#/components/schemas/mongoose.Types.ObjectId"
+							"type": "string"
 						},
 						"type": "array"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
 					}
 				},
 				"required": [
-					"_id",
-					"profilePicture",
 					"firstName",
 					"lastName",
 					"email",
-					"contactPhone",
-					"gender",
-					"location",
-					"dateOfBirth",
-					"nationality",
-					"address",
-					"educationBackground",
-					"favoriteCards"
+					"dateOfBirth"
 				],
 				"type": "object",
 				"additionalProperties": true
-			},
-			"Partial_IUserProfille_": {
-				"properties": {
-					"_id": {
-						"$ref": "#/components/schemas/mongoose.Types.ObjectId"
-					},
-					"profilePicture": {
-						"type": "string"
-					},
-					"firstName": {
-						"type": "string"
-					},
-					"lastName": {
-						"type": "string"
-					},
-					"email": {
-						"type": "string"
-					},
-					"contactPhone": {
-						"type": "string"
-					},
-					"gender": {
-						"type": "string"
-					},
-					"location": {
-						"type": "string"
-					},
-					"dateOfBirth": {
-						"type": "string",
-						"format": "date-time"
-					},
-					"nationality": {
-						"type": "string"
-					},
-					"address": {
-						"type": "string"
-					},
-					"educationBackground": {
-						"type": "string"
-					},
-					"favoriteCards": {
-						"items": {
-							"$ref": "#/components/schemas/mongoose.Types.ObjectId"
-						},
-						"type": "array"
-					}
-				},
-				"type": "object",
-				"description": "Make all properties in T optional"
 			}
 		},
 		"securitySchemes": {}
 	},
 	"info": {
-		"title": "auth-service",
+		"title": "profile-service",
 		"version": "1.0.0",
-		"description": "Authentication microservice for our micro sample app",
+		"description": "profile microservice for our micro sample app",
 		"license": {
 			"name": "MIT"
 		},
@@ -138,57 +81,9 @@
 		}
 	},
 	"paths": {
-		"/v1/users/all-profile": {
+		"/v1/users/signup": {
 			"post": {
-				"operationId": "GetAllUserController",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"items": {
-										"$ref": "#/components/schemas/IUserProfille"
-									},
-									"type": "array"
-								}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": []
-			}
-		},
-		"/v1/users/{id}": {
-			"post": {
-				"operationId": "GetCardById",
-				"responses": {
-					"200": {
-						"description": "Successfully retrieved profile",
-						"content": {
-							"application/json": {
-								"schema": {}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
-			}
-		},
-		"/v1/users/update-profile/{id}": {
-			"post": {
-				"operationId": "UpdateUserController",
+				"operationId": "CreateUser",
 				"responses": {
 					"200": {
 						"description": "Ok",
@@ -200,52 +95,17 @@
 					}
 				},
 				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
+				"parameters": [],
 				"requestBody": {
 					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/Partial_IUserProfille_"
+								"$ref": "#/components/schemas/IUserDocument"
 							}
 						}
 					}
 				}
-			}
-		},
-		"/v1/users/delete-profile/{id}": {
-			"post": {
-				"operationId": "DeleteUserContrioller",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {}
-							}
-						}
-					}
-				},
-				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "id",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				]
 			}
 		}
 	},

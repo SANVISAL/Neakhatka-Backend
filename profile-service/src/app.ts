@@ -18,7 +18,9 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
 );
-RegisterRoutes(app)
 app.use(express.static("public"));
+app.use(express.json());
+
+RegisterRoutes(app);
 
 export default app;

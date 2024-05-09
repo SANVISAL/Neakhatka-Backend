@@ -8,8 +8,6 @@
     "start:dev": "cross-env NODE_ENV=development nodemon src/server.ts",
     "gen:spec": "tsoa spec",
     "gen:routes": "tsoa routes",
-    "build": "tsoa spec-and-routes && tsc",
-    "start": "nodemon ./src/server.ts",
     "gen:all": "npm run gen:spec && npm run gen:routes",
     "test": "cross-env NODE_ENV=testing jest --watchAll"
   },
