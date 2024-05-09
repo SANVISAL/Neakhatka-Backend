@@ -1,28 +1,31 @@
 import mongoose, { Document, Model } from "mongoose";
-export interface IAccountVerificationOLDocument extends Document {
-  userID: mongoose.Types.ObjectId;
+import APIError from "../../errors/api-error";
+
+export interface IAccountVerificationDocument extends Document {
+  userId: mongoose.Types.ObjectId;
   emailVerificationToken: string;
 }
 
 export interface IAccountVerificationModel
-  extends Model<IAccountVerificationOLDocument> {}
+  extends Model<IAccountVerificationDocument> {}
 
 const accountVerificationSchema = new mongoose.Schema({
-  userID: { type: mongoose.Schema.Types.ObjectId, required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, required: true },
   emailVerificationToken: {
     type: String,
     required: true,
     validate: (value: string): boolean => {
       if (!value || value.length !== 64) {
-        console.log("Invalide email");
+        throw new APIError("Invalid email verfication token");
       }
       return true;
     },
   },
 });
 
-const accountVerificationModel = mongoose.model<
-  IAccountVerificationOLDocument,
+const AccountVerificationModel = mongoose.model<
+  IAccountVerificationDocument,
   IAccountVerificationModel
->("Account_Verifcation", accountVerificationSchema);
-export default accountVerificationModel;
+>("Account_Verification", accountVerificationSchema);
+
+export default AccountVerificationModel;
