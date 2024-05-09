@@ -1,7 +1,8 @@
 import { Channel } from "amqplib";
-import { createQuesueConnection } from "./connection";
+import { logger } from "../utils/logger";
+import { createQueueConnection } from "./connection";
 
-export async function publicDirectMessage(
+export async function publishDirectMessage(
   channel: Channel,
   exchangeName: string,
   routingKey: string,
@@ -10,12 +11,16 @@ export async function publicDirectMessage(
 ): Promise<void> {
   try {
     if (!channel) {
-      channel = (await createQuesueConnection()) as Channel;
+      channel = (await createQueueConnection()) as Channel;
     }
+
     await channel.assertExchange(exchangeName, "direct");
     channel.publish(exchangeName, routingKey, Buffer.from(message));
-    console.log(logMessage);
+    logger.info(logMessage);
   } catch (error) {
-    console.log(error);
+    logger.error(
+      `AuthService Provider publishDirectMessage() method error`,
+      error
+    );
   }
 }

@@ -1,10 +1,18 @@
-import { Controller, Get, Post, Body, Query, Route, SuccessResponse } from "tsoa";
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Query,
+  Route,
+  SuccessResponse,
+} from "tsoa";
 import axios from "axios";
 import { ROUTE_PATH } from "../routes/v1/routes-refer";
 import UserService from "../service/user.service";
 import { generateSignature } from "../utils/jwt";
 import AuthModel from "../database/model/user.repository"; // Ensure correct path
-import { publicDirectMessage } from "../queues/auth.producer";
+import { publishDirectMessage } from "../queues/auth.producer";
 import { authChannel } from "../server";
 import { IAuthUserMessageDetails } from "../queues/@types/auth.type";
 import { StatusCode } from "../utils/consts";
@@ -94,7 +102,7 @@ export class AuthController extends Controller {
         role,
       });
       const verificationToken = await userService.SaveVerificationToken({
-        userID: newUser._id,
+        userId: newUser._id,
       });
 
       const messageDetail = {
@@ -102,7 +110,7 @@ export class AuthController extends Controller {
         verifyLink: `${verificationToken?.emailVerificationToken}`,
         template: "verify Email",
       };
-      await publicDirectMessage(
+      await publishDirectMessage(
         authChannel,
         "microsample-email-notification",
         "auth-email",
@@ -117,15 +125,16 @@ export class AuthController extends Controller {
       // });
       return {
         message: "Sign up successfully",
-        data: newUser,
+        // data: newUser,
       };
     } catch (error) {
-      console.error("Sign up error:", error);
-      this.setStatus(500);
+      throw error;
+      // console.error("Sign up error:", error);
+      // this.setStatus(500);
       // res.send("Error during sign up process.");
-      return {
-        message: "Error during sign up process.",
-      };
+      // return {
+      //   message: "Error during sign up process.",
+      // };
     }
   }
 
@@ -136,7 +145,7 @@ export class AuthController extends Controller {
     // Using Response type for more flexible error handling.
     try {
       const userService = new UserService();
-      const user = await userService.VerifivationToken({ token });
+      const user = await userService.VerifyEmailToken({ token });
 
       // Check if the user does not exist or other types of errors
       if (typeof user === "string") {
@@ -148,7 +157,6 @@ export class AuthController extends Controller {
       const UserDetail = await userService.FindUserByEmail({
         email: user.email,
       });
-
       // Assuming UserDetail usage here
       if (!UserDetail) {
         console.log("User details not found.");
@@ -160,7 +168,7 @@ export class AuthController extends Controller {
         email: UserDetail?.email,
         type: "auth",
       };
-      await publicDirectMessage(
+      await publishDirectMessage(
         authChannel,
         "Microsample-user-update",
         "user-applier",
