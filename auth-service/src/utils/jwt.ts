@@ -27,7 +27,6 @@ export const generateSignature = async(payload: object):Promise<string>=>{
       expiresIn: parseInt(getConfig().jwtExpiresIn!),
       algorithm:"RS256"
     })
-
   }catch(error){
     console.log(error)
     return "error on signature"
