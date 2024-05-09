@@ -1,8 +1,9 @@
 export const ROUTE_PATH = {
   AUTH: {
-    BASE: "/v1/auth",
     SIGN_UP: "/signup",
     VERIFY: "/verify",
-    LOGIN: "/login"
+    LOGIN: "/login",
+    GOOGLE: "/google",
+    GOOGLE_CALLBACK: "/google/callback",
   },
 };

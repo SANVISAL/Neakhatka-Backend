@@ -1,5 +1,7 @@
 // import { string } from "zod";
+import APIError from "../../errors/api-error";
 import { UserSignUpResult } from "../../service/@types/user.service.type";
+import { StatusCode } from "../../utils/consts";
 import AuthModel from "../model/user.repository";
 import {
   UserCreateRepository,
@@ -13,13 +15,15 @@ class UserRepository {
     try {
       const existingUser = await this.FindUser({ email: UserDetail.email });
       if (existingUser) {
-        console.log("Email have been useed before");
+        throw new APIError(
+          "This email is already in use",
+          StatusCode.BadRequest
+        );
       }
       const newUser = new AuthModel(UserDetail);
       const userResult = await newUser.save();
       return userResult as UserSignUpResult;
     } catch (error) {
-      console.log(error);
       throw error;
     }
   }
@@ -33,7 +37,7 @@ class UserRepository {
     }
   }
 
-  async FinduserByID({ id }: { id: string }) {
+  async FinduserById({ id }: { id: string }) {
     try {
       const existedUser = await AuthModel.findById(id);
       return existedUser;
@@ -50,7 +54,7 @@ class UserRepository {
     update: UserUpdateRepository;
   }) {
     try {
-      const isExist = await this.FinduserByID({ id });
+      const isExist = await this.FinduserById({ id });
       if (!isExist) {
         return "User not Exist";
       }
