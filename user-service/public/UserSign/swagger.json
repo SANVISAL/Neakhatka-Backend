@@ -1,0 +1,117 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"IUserDocument": {
+				"properties": {
+					"_id": {
+						"type": "string"
+					},
+					"profilePicture": {
+						"type": "string"
+					},
+					"firstName": {
+						"type": "string"
+					},
+					"lastName": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"contactPhone": {
+						"type": "string"
+					},
+					"gender": {
+						"type": "string"
+					},
+					"location": {
+						"type": "string"
+					},
+					"dateOfBirth": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"nationality": {
+						"type": "string"
+					},
+					"address": {
+						"type": "string"
+					},
+					"educationBackground": {
+						"type": "string"
+					},
+					"favoriteCards": {
+						"items": {
+							"type": "string"
+						},
+						"type": "array"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"firstName",
+					"lastName",
+					"email",
+					"dateOfBirth"
+				],
+				"type": "object",
+				"additionalProperties": true
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "profile-service",
+		"version": "1.0.0",
+		"description": "profile microservice for our micro sample app",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {
+			"name": "Sokritha Yen"
+		}
+	},
+	"paths": {
+		"/v1/users/signup": {
+			"post": {
+				"operationId": "CreateUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/IUserDocument"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
