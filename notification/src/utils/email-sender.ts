@@ -1,5 +1,5 @@
-import APIError from "../errors/api-error";
-import { EmailApi, IEmailLocals } from "./@types/email-sender.type";
+import APIError from '../errors/api-error';
+import { EmailApi, IEmailLocals } from './@types/email-sender.type';
 
 // ********************************
 // Singleton Pattern
@@ -50,11 +50,11 @@ export default class EmailSender implements EmailApi {
 
   private validateEmailSender(): void {
     if (!this.isActive) {
-      throw new APIError("EmailSender is not active");
+      throw new APIError('EmailSender is not active');
     }
 
     if (!this.emailApi) {
-      throw new APIError("EmailApi is not set");
+      throw new APIError('EmailApi is not set');
     }
   }
 }

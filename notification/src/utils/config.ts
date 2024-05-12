@@ -1,27 +1,27 @@
-import dotenv from "dotenv";
-import APIError from "../errors/api-error";
-import path from "path";
+import dotenv from 'dotenv';
+import APIError from '../errors/api-error';
+import path from 'path';
 
 function createConfig(configPath: string) {
   dotenv.config({ path: configPath });
 
   // Validate essential configuration
   const requiredConfig = [
-    "NODE_ENV",
-    "PORT",
-    "CLIENT_URL",
-    "LOG_LEVEL",
-    "RABBITMQ_ENDPOINT",
-    "SENDER_EMAIL",
-    "SENDER_EMAIL_PASSWORD",
-    "SMTP_HOST",
-    "SMTP_PORT",
+    'NODE_ENV',
+    'PORT',
+    'CLIENT_URL',
+    'LOG_LEVEL',
+    'RABBITMQ_ENDPOINT',
+    'SENDER_EMAIL',
+    'SENDER_EMAIL_PASSWORD',
+    'SMTP_HOST',
+    'SMTP_PORT',
   ];
   const missingConfig = requiredConfig.filter((key) => !process.env[key]);
 
   if (missingConfig.length > 0) {
     throw new APIError(
-      `Missing required environment variables: ${missingConfig.join(", ")}`
+      `Missing required environment variables: ${missingConfig.join(', ')}`
     );
   }
 
@@ -39,9 +39,9 @@ function createConfig(configPath: string) {
   };
 }
 
-const getConfig = (currentEnv: string = "development") => {
+const getConfig = (currentEnv: string = 'development') => {
   const configPath =
-    currentEnv === "development"
+    currentEnv === 'development'
       ? path.join(__dirname, `../../configs/.env`)
       : path.join(__dirname, `../../configs/.env.${currentEnv}`);
   return createConfig(configPath);

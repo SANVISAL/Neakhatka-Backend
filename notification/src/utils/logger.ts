@@ -1,11 +1,11 @@
-import winston from "winston";
-import path from "path";
+import winston from 'winston';
+import path from 'path';
 
 const { combine, timestamp, printf, colorize, align } = winston.format;
 
 // Create a Winston Logger
 export const logger = winston.createLogger({
-  defaultMeta: { service: "notification-service" },
+  defaultMeta: { service: 'notification-service' },
   // Add a timestamp to each log message & format in JSON
   format: combine(
     colorize({ all: true }),
@@ -17,7 +17,7 @@ export const logger = winston.createLogger({
 });
 
 export const logInit = ({
-  env = "development",
+  env = 'development',
   logLevel,
 }: {
   env: string | undefined;
@@ -27,15 +27,15 @@ export const logInit = ({
   logger.add(
     new winston.transports.Console({
       level: logLevel,
-      silent: env === "testing",
+      silent: env === 'testing',
     })
   );
 
-  if (env !== "development") {
+  if (env !== 'development') {
     logger.add(
       new winston.transports.File({
         level: logLevel,
-        filename: path.join(__dirname, "../../logs/auth-service.log"),
+        filename: path.join(__dirname, '../../logs/auth-service.log'),
       })
     );
   }
