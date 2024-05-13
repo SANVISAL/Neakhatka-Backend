@@ -1,9 +1,9 @@
-import { IpostDocument } from "../@types/post-interface";
 import { Post } from "../model/post.repo.model";
+import { postcreateschema } from "./@types/post.repo.type";
 // import { postcreateschema, postupdateschema } from "./@types/post.repo.type";
 
 class PostJob {
-  async Create(postdetail:IpostDocument ) {
+  async Create(postdetail:postcreateschema ) {
     try {
       const create = new Post(postdetail);
       return create;
@@ -11,7 +11,9 @@ class PostJob {
       console.log(error);
     }
   }
+}
 
+export default PostJob
   // async Find_By_Id({ id }: { id: string }) {
   //   try {
   //     const existed = await Post.findById(id);
@@ -45,5 +47,5 @@ class PostJob {
   //     console.log(error);
   //   }
   // }
-}
-export default PostJob;
+// }
+// export default PostJob;

@@ -1,6 +1,4 @@
-import mongoose, { Schema } from "mongoose";
-import { IpostDocument } from "../@types/post-interface";
-
+import  { Schema ,model} from "mongoose";
 const postingSchema: Schema = new Schema(
   {
     companyId: { type: String, required: true },
@@ -34,6 +32,6 @@ const postingSchema: Schema = new Schema(
   }
 );
 
-const Post = mongoose.model<IpostDocument>("Post", postingSchema);
+const Post =model("Post", postingSchema)
 
 export { Post };

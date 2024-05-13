@@ -1,11 +1,10 @@
 import { CompanyModel } from "../model/company.repository.model";
 import {
-  companycreateschema,
-  companyupdateschema,
+  companycreateschema,companyupdateschema
 } from "./@types/company.repo.type";
 
 class CompanyRepo {
-  async Create(companydetail: companycreateschema) {
+  async Create(companydetail:companycreateschema) {
     try {
       const existedemail = await this.Find_Email({
         contactEmail: companydetail.contactEmail,

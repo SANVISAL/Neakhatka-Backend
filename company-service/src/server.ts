@@ -1,4 +1,4 @@
-import { logger,logInit } from "./util/logger";
+import { logger, logInit } from "./util/logger";
 import { Channel } from "amqplib";
 import { ConnectToMongoDB } from "./database/connectBD/conneed.DB";
 import getConfig from "./util/config";

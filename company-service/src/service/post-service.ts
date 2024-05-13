@@ -1,8 +1,6 @@
-// import {
-//   postcreateschema,
-//   postupdateschema,
-// } from "../database/repository/@types/post.repo.type";
-import { IpostDocument } from "../database/@types/post-interface";
+import {
+  postcreateschema,
+} from "../database/repository/@types/post.repo.type";
 import PostJob from "../database/repository/post.repository";
 
 class PostService {
@@ -10,7 +8,7 @@ class PostService {
   constructor() {
     this.postrepo = new PostJob();
   }
-  async Create(postdetail: IpostDocument) {
+  async Create(postdetail: postcreateschema) {
     try {
       const create = await this.postrepo.Create(postdetail);
       return create;
@@ -18,6 +16,8 @@ class PostService {
       console.log(error);
     }
   }
+}
+export default PostService;
 
   // async Find_By_Id({ id }: { id: string }) {
   //   try {
@@ -41,6 +41,6 @@ class PostService {
   //     console.log(error);
   //   }
   // }
-}
+// }
 
-export default PostService;
+// export default PostService;

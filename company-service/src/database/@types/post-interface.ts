@@ -1,17 +1,15 @@
 
-import { Document } from "mongoose";
-
-export interface IpostDocument extends Document {
+export interface IpostDocument {
   companyId: string;
   title: string;
   description: string;
   requirements: string[];
-  responsibilities: string[];
+  responsibilities: string[]; 
   people: number;
   location: string;
   duration: number;
-  gender: ("male" | "female" | "other")[];
-  type: ("full-time" | "part-time")[];
+  gender: "male" | "female" | "other";
+  type: "full-time" | "part-time";
   available_position: number;
   language: string[];
   deadline: Date;

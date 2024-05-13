@@ -1,6 +1,8 @@
 const ROUTE_PATHS = {
   COMPANY: {
     CREATE: "/",
-    POST:"/posting"
+    GET_BY_ID:"/:id",
+    POST:"/postng"
   },
 };
+export default ROUTE_PATHS;

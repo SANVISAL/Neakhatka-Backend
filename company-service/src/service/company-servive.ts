@@ -1,6 +1,6 @@
+// import { ICompanyDocument } from "../database/model/company.repository.model";
 import {
-  companycreateschema,
-  companyupdateschema,
+  companycreateschema,companyupdateschema
 } from "../database/repository/@types/company.repo.type";
 import CompanyRepo from "../database/repository/company.repository";
 

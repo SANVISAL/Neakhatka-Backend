@@ -3,7 +3,7 @@ import hpp from "hpp";
 import helmet from "helmet";
 import cors from "cors";
 import getConfig from "./util/config";
-// import { RegisterRoutes } from "./routes/v1/routes";
+import { RegisterRoutes } from "./routes/v1/routes";
 
 const app = express();
 
@@ -21,6 +21,6 @@ app.use(
 app.use(express.static("public"));
 app.use(express.json());
 
-// RegisterRoutes(app);
+RegisterRoutes(app);
 
 export default app;
