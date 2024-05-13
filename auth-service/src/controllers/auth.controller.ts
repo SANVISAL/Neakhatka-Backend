@@ -3,6 +3,7 @@ import {
   Get,
   Post,
   Body,
+  Middlewares,
   Query,
   Route,
   SuccessResponse,
@@ -11,6 +12,7 @@ import axios from "axios";
 import { ROUTE_PATH } from "../routes/v1/routes-refer";
 import UserService from "../service/user.service";
 import { generateSignature } from "../utils/jwt";
+import { UserSignInSchema, UsersignUpSchema } from "../schema/user-schema"; 
 import AuthModel from "../database/model/user.repository"; // Ensure correct path
 import { publishDirectMessage } from "../queues/auth.producer";
 import { authChannel } from "../server";
@@ -18,6 +20,7 @@ import { IAuthUserMessageDetails } from "../queues/@types/auth.type";
 import { StatusCode } from "../utils/consts";
 import { logger } from "../utils/logger";
 import APIError from "../errors/api-error";
+import validateInput from "../middlewares/validate-input";
 
 interface SignUpRequestBody {
   firstname: string;
@@ -35,6 +38,7 @@ export class AuthController extends Controller {
   // 2. Publish User Detail to Notification Service
   @SuccessResponse(StatusCode.Created, "Created")
   @Post(ROUTE_PATH.AUTH.SIGN_UP)
+  @Middlewares(validateInput(UsersignUpSchema))
   public async SignUpWithEmail(
     @Body() requestBody: SignUpRequestBody
   ): Promise<any> {
@@ -179,6 +183,7 @@ export class AuthController extends Controller {
   // login
   @SuccessResponse(StatusCode.OK, "OK")
   @Get(ROUTE_PATH.AUTH.LOGIN)
+  @Middlewares(validateInput(UserSignInSchema))
   public async loginWithEmail(
     @Query() email: string,
     @Query() password: string
