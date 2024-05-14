@@ -37,7 +37,7 @@ class UserRepository {
     }
   }
 
-  async FinduserById({ id }: { id: string }) {
+  async FindUserById({ id }: { id: string }) {
     try {
       const existedUser = await AuthModel.findById(id);
       return existedUser;
@@ -54,7 +54,7 @@ class UserRepository {
     update: UserUpdateRepository;
   }) {
     try {
-      const isExist = await this.FinduserById({ id });
+      const isExist = await this.FindUserById({ id });
       if (!isExist) {
         return "User not Exist";
       }

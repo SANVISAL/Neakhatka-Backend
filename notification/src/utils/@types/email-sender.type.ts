@@ -1,7 +1,8 @@
 export interface IEmailLocals {
   appLink?: string;
   appIcon?: string;
-  username?: string;
+  // firstname?: string;
+  // lastname?: string;
   verifyLink?: string;
   resetLink?: string;
 }

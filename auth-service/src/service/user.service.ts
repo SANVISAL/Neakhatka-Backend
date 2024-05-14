@@ -6,7 +6,7 @@ import {
 } from "../utils/jwt";
 import { UserSignUpResult, UserSignupParams } from "./@types/user.service.type";
 import { AccountVerificationRepository } from "../database/repository/account-verication-repository";
-import { generateEmailVerication } from "../utils/account-verification";
+import { generateEmailVerificationToken } from "../utils/account-verification";
 import accountVerificationModel from "../database/model/account-verify";
 import { publishDirectMessage } from "../queues/auth.producer";
 import { authChannel } from "../server";
@@ -18,84 +18,45 @@ import { logger } from "../utils/logger";
 
 class UserService {
   private userRepo: UserRepository;
-  private verificationRepo: AccountVerificationRepository;
+  private accountVerificationRepo: AccountVerificationRepository;
 
   constructor() {
     this.userRepo = new UserRepository();
-    this.verificationRepo = new AccountVerificationRepository();
+    this.accountVerificationRepo = new AccountVerificationRepository();
   }
-  // async Create(UserDetail: UserSignupParams): Promise<UserSignUpResult> {
-  //   try {
-  //     const hashPassword =
-  //       UserDetail.password && (await generatePassword(UserDetail.password));
-  //     let newUserParams = { ...UserDetail };
-  //     if (hashPassword) {
-  //       newUserParams = { ...newUserParams, password: hashPassword };
-  //     }
-  //     const newuser = await this.userRepo.CreateUser(newUserParams);
-  //     return newuser;
-  //   } catch (error) {
-  //     console.log(error);
-  //     if (error instanceof DubplicateError) {
-  //       const existedUser = await this.userRepo.FindUser({
-  //         email: UserDetail.email,
-  //       });
-  //       if (!existedUser?.isVerified) {
-  //         const token = await this.verificationRepo.FindVericationTokenbyID({
-  //           id: existedUser!._id,
-  //         });
-  //         if (!token) {
-  //           console.log("Token not found!");
-  //         }
-  //         const messageDetail = {
-  //           recicerEmail: existedUser!.email,
-  //           verifylink: `${token?.emailVerificationToken}`,
-  //           template: "verifyEmail",
-  //         };
-  //         publishDirectMessage(
-  //           authChannel,
-  //           "email-notification",
-  //           "auth email",
-  //           JSON.stringify(messageDetail),
-  //           "Verify email message has been send"
-  //         );
-  //       } else {
-  //         console.log("email aleady  exist! please login");
-  //         throw error;
-  //       }
-  //     }
-  //     throw error;
-  //   }
-  // }
-
-  async Create(userDetail: UserSignupParams): Promise<UserSignUpResult> {
+  // NOTE: THIS METHOD WILL USE BY SIGNUP WITH EMAIL & OAUTH
+  // TODO:
+  // 1. Hash The Password If Register With Email
+  // 2. Save User to DB
+  // 3. If Error, Check Duplication
+  // 3.1. Duplication case 1: Sign Up Without Verification
+  // 3.2. Duplication case 2: Sign Up With The Same Email
+  async Create(userDetails: UserSignupParams): Promise<UserSignUpResult> {
     try {
       // Step 1
       const hashedPassword =
-        userDetail.password && (await generatePassword(userDetail.password));
-
-      let newUserParams = { ...userDetail };
-
+        userDetails.password && (await generatePassword(userDetails.password));
+      let newUserParams = { ...userDetails };
       if (hashedPassword) {
         newUserParams = { ...newUserParams, password: hashedPassword };
       }
 
       // Step 2
       const newUser = await this.userRepo.CreateUser(newUserParams);
-
       return newUser;
     } catch (error: unknown) {
       // Step 3
       if (error instanceof DuplicateError) {
         const existedUser = await this.userRepo.FindUser({
-          email: userDetail.email,
+          email: userDetails.email,
         });
 
         if (!existedUser?.isVerified) {
           // Resent the token
-          const token = await this.verificationRepo.FindVerificationTokenById({
-            id: existedUser!._id,
-          });
+          const token =
+            await this.accountVerificationRepo.FindVerificationTokenById({
+              id: existedUser!._id,
+            });
 
           if (!token) {
             logger.error(`UserService Create() method error: token not found!`);
@@ -135,11 +96,14 @@ class UserService {
       throw error;
     }
   }
-
-  ///
+  // TODO
+  // 1. Generate Verify Token
+  // 2. Save the Verify Token in the Database
   async SaveVerificationToken({ userId }: { userId: string }) {
     try {
-      const emailVerificationToken = generateEmailVerication();
+      // Step 1
+      const emailVerificationToken = generateEmailVerificationToken();
+      // Step 2
       const accountverification = new accountVerificationModel({
         userId,
         emailVerificationToken,
@@ -152,30 +116,9 @@ class UserService {
     }
   }
 
-  // async VerifivationToken({ token }: { token: string }): Promise<any> {
-  //   const istokenExsit = await this.verificationRepo.FindVerificationTokenById({
-  //     token,
-  //   });
-  //   if (!istokenExsit) {
-  //     console.log("token not found");
-  //     return;
-  //   }
-  //   const user = await this.userRepo.FinduserById({
-  //     id: istokenExsit?.userId.toString(),
-  //   });
-  //   if (!user) {
-  //     return "user not exsited";
-  //   }
-  //   user.isVerified = true;
-  //   await user.save();
-  //   await this.verificationRepo.DeleteVerificationToken({ token });
-  //   return user;
-  // }
-
   async VerifyEmailToken({ token }: { token: string }) {
-    const isTokenExist = await this.verificationRepo.FindVerificationToken({
-      token,
-    });
+    const isTokenExist =
+      await this.accountVerificationRepo.FindVerificationToken({ token });
 
     if (!isTokenExist) {
       throw new APIError(
@@ -185,7 +128,7 @@ class UserService {
     }
 
     // Find the user associated with this token
-    const user = await this.userRepo.FinduserById({
+    const user = await this.userRepo.FindUserById({
       id: isTokenExist.userId.toString(),
     });
     if (!user) {
@@ -196,46 +139,64 @@ class UserService {
     user.isVerified = true;
     await user.save();
 
-    // Remove the verification token
-    await this.verificationRepo.DeleteVerificationToken({ token });
+    // Remove the verification token0
+    await this.accountVerificationRepo.DeleteVerificationToken({ token });
 
     return user;
+  }
+
+  // Todo login
+  async Login(UserDetails: UsersignInSchemType) {
+    // TODO:
+    // 1. Find user by email
+    // 2. Validate the password
+    // 3. Generate Token & Return
+
+    // Step 1
+    const user = await this.userRepo.FindUser({ email: UserDetails.email });
+
+    if (!user) {
+      throw new APIError("User not exist", StatusCode.NotFound);
+    }
+
+    // Step 2
+    const isPwdCorrect = await ValidatePassword({
+      enterpassword: UserDetails.password,
+      savedPassword: user.password as string,
+    });
+
+    if (!isPwdCorrect) {
+      throw new APIError(
+        "Email or Password is incorrect",
+        StatusCode.BadRequest
+      );
+    }
+
+    // Step 3
+    const token = await generateSignature({ userId: user._id });
+    return token;
   }
 
   async FindUserByEmail({ email }: { email: string }) {
     try {
       const user = await this.userRepo.FindUser({ email });
       return user;
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   }
 
   async UpdateUser({ id, update }: { id: string; update: object }) {
     try {
-      const user = await this.userRepo.FinduserById({ id });
+      const user = await this.userRepo.FindUserById({ id });
       if (!user) {
-        return "User not Found";
+        throw new APIError("User does not exist", StatusCode.NotFound);
       }
-      const Updateuser = await this.userRepo.UpdateUserById({ id, update });
-      return Updateuser;
+      const updatedUser = await this.userRepo.UpdateUserById({ id, update });
+      return updatedUser;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
-  }
-  // Todo login
-  async Login(UserDetail: UsersignInSchemType) {
-    const user = await this.userRepo.FindUser({ email: UserDetail.email });
-    if (!user) {
-      return "User not Exist";
-    }
-    const isPwcorrect = await ValidatePassword({
-      enterpassword: UserDetail.password,
-      savedPassword: user.password as string,
-    });
-    if (!isPwcorrect) {
-      return "Email or Password incorrect";
-    }
-    const token = await generateSignature({ userID: user._id });
-    return token;
   }
 }
 
