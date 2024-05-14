@@ -1,0 +1,100 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"companycreateschema": {
+				"properties": {
+					"companyName": {
+						"type": "string"
+					},
+					"contactEmail": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"companyName",
+					"contactEmail"
+				],
+				"type": "object",
+				"additionalProperties": true
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "company-service",
+		"version": "1.0.0",
+		"description": "profile microservice for our micro sample app",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {
+			"name": "Sokritha Yen"
+		}
+	},
+	"paths": {
+		"/v1/company": {
+			"post": {
+				"operationId": "Create",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/companycreateschema"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/v1/company/{id}": {
+			"get": {
+				"operationId": "Get_By_id",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
