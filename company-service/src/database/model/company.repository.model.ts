@@ -1,12 +1,12 @@
-import {Schema, model } from "mongoose";
+import { Schema, model, Document, Model } from "mongoose";
 
-export interface ICompanyDocument {
+export interface ICompanyDocument extends Document {
   companyName?: string;
   logo?: string;
   contactPhone?: number;
   websiteLink?: string;
   location?: string;
-  contactEmail?: string| undefined;
+  contactEmail?: string | undefined;
   contactPerson: string;
   numberOfEmployees: number;
   address: string;
@@ -14,11 +14,13 @@ export interface ICompanyDocument {
   userId?: string;
 }
 
-const companySchema: Schema = new Schema(
+interface ICompanyModel extends Model<ICompanyDocument> {}
+
+const companySchema = new Schema(
   {
     companyName: { type: String, required: true },
     logo: { type: String, required: false, default: "" },
-    contactPhone: { type: Number, required: false, default: 0},
+    contactPhone: { type: Number, required: false, default: 0 },
     contactEmail: {
       type: String,
       required: true,
@@ -40,6 +42,9 @@ const companySchema: Schema = new Schema(
   }
 );
 
-const CompanyModel = model("Company", companySchema);
+const CompanyModel = model<ICompanyDocument, ICompanyModel>(
+  "Company",
+  companySchema
+);
 
 export { CompanyModel };
