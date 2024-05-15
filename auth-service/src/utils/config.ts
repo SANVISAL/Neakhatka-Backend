@@ -23,6 +23,7 @@ function createconfig(configPath: string) {
     mongoUrl: process.env.MONGODB_URL,
     logLevel: process.env.LOG_LEVEL,
     rabbitMQ: process.env.RABBITMQ_ENDPOINT,
+    apiGateway: process.env.API_GATEWAY,
     jwtExpiresIn: process.env.JWT_EXPIRES_IN,
   };
 }

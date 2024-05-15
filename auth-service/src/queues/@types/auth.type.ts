@@ -1,6 +1,5 @@
-export interface IAuthUserMessageDetails{
-    firstname?: string,
-    lastname? : string,
-    email? :string,
-    type? :string
+export interface IAuthUserMessageDetails {
+  username: string;
+  email?: string;
+  type?: string;
 }

@@ -5,6 +5,7 @@ import BaseCustomError from "./base-custom-error";
 
 export default class InvalidInputError extends BaseCustomError {
   private readonly errors: ZodError;
+    zodError: any;
 
   constructor(errors: ZodError) {
     super("The input provided is invalid", StatusCode.BadRequest);

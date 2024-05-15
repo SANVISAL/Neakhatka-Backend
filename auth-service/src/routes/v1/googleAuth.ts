@@ -48,8 +48,7 @@ authRouter.get("/user/google/callback", async (req: Request, res: Response) => {
     if (!user) {
       // Create a new user if not found
       user = new AuthModel({
-        firstname: profile.given_name, // Assuming the profile has given_name and family_name
-        lastname: profile.family_name,
+          username: profile.given_name, // Assuming the profile has given_name and family_name
         email: profile.email,
         isVerified: true, // Assuming Google OAuth is verified
         googleId: profile.id,
