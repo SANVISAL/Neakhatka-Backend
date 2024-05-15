@@ -22,6 +22,47 @@
 				],
 				"type": "object",
 				"additionalProperties": true
+			},
+			"companyupdateschema": {
+				"properties": {
+					"companyName": {
+						"type": "string"
+					},
+					"logo": {
+						"type": "string"
+					},
+					"contactPhone": {
+						"type": "number",
+						"format": "double"
+					},
+					"websiteLink": {
+						"type": "string"
+					},
+					"location": {
+						"type": "string"
+					},
+					"contactEmail": {
+						"type": "string"
+					},
+					"contactPerson": {
+						"type": "string"
+					},
+					"numberOfEmployees": {
+						"type": "number",
+						"format": "double"
+					},
+					"address": {
+						"type": "string"
+					},
+					"companyDescription": {
+						"type": "string"
+					},
+					"userId": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": true
 			}
 		},
 		"securitySchemes": {}
@@ -89,6 +130,42 @@
 						}
 					}
 				]
+			},
+			"put": {
+				"operationId": "Update",
+				"responses": {
+					"302": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/companyupdateschema"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/companyupdateschema"
+							}
+						}
+					}
+				}
 			}
 		}
 	},

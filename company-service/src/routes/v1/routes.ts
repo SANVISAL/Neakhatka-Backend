@@ -20,6 +20,24 @@ const models: TsoaRoute.Models = {
         "additionalProperties": true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "companyupdateschema": {
+        "dataType": "refObject",
+        "properties": {
+            "companyName": {"dataType":"string"},
+            "logo": {"dataType":"string"},
+            "contactPhone": {"dataType":"double"},
+            "websiteLink": {"dataType":"string"},
+            "location": {"dataType":"string"},
+            "contactEmail": {"dataType":"string"},
+            "contactPerson": {"dataType":"string"},
+            "numberOfEmployees": {"dataType":"double"},
+            "address": {"dataType":"string"},
+            "companyDescription": {"dataType":"string"},
+            "userId": {"dataType":"string"},
+        },
+        "additionalProperties": true,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
 const templateService = new ExpressTemplateService(models, {"noImplicitAdditionalProperties":"ignore","bodyCoercion":true});
 
@@ -84,6 +102,37 @@ export function RegisterRoutes(app: Router) {
                 next,
                 validatedArgs,
                 successStatus: 200,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        app.put('/v1/company/:id',
+            ...(fetchMiddlewares<RequestHandler>(CompanyController)),
+            ...(fetchMiddlewares<RequestHandler>(CompanyController.prototype.Update)),
+
+            async function CompanyController_Update(request: ExRequest, response: ExResponse, next: any) {
+            const args: Record<string, TsoaRoute.ParameterSchema> = {
+                    id: {"in":"path","name":"id","required":true,"dataType":"string"},
+                    update: {"in":"body","name":"update","required":true,"ref":"companyupdateschema"},
+            };
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+
+                const controller = new CompanyController();
+
+              await templateService.apiHandler({
+                methodName: 'Update',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: 302,
               });
             } catch (err) {
                 return next(err);
