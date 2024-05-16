@@ -12,7 +12,15 @@ services:
       - "5672:5672"
       # Management UI
       - "15672:15672"
-
+  api-gateway:
+    container_name: gateway-service
+    build:
+      context: ../api-gateway
+      dockerfile: Dockerfile.dev
+    restart: always
+    ports:
+      - "4000:4000"
+    env_file: ../api-gateway/configs/.env
   auth-service:
     container_name: auth-service
     build:
