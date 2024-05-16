@@ -12,3 +12,13 @@ services:
       - "5672:5672"
       # Management UI
       - "15672:15672"
+
+  auth-service:
+    container_name: auth-service
+    build:
+      context: ../auth-service
+      dockerfile: Dockerfile.dev
+    restart: always
+    ports:
+      - "4001:4001"
+    env_file: ../auth-service/configs/.env

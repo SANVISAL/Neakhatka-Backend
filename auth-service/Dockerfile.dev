@@ -1,27 +1,18 @@
-# Use the official Node.js image based on Alpine Linux as a base
-# The 'node:21-alpine3.18' image is lightweight and includes Node.js version 21
 FROM node:21-alpine3.18
 
-# All subsequent commands will be run from this directory
 WORKDIR /app
 
-# This step is done before copying the rest of the files to leverage Docker's caching mechanism
+# Copy package.json, tsconfig.json, source code
 COPY package.json ./
-
-# This file is required for TypeScript compilation
 COPY tsconfig.json ./
-
-# This contains the source code of your application
 COPY src ./src
+COPY private_key.pem ./
+# Copy .env file from configs directory
+# Copy public_key.pem
 
-# This includes both production and development dependencies
-RUN npm install && npm install nodemon
+# Install dependencies and nodemon
+RUN npm install && npm install -g nodemon
 
-# Copy private_key.pem into /app directory
-COPY private_key.pem /app/private_key.pem
-
-# This is the port on which your application will run inside the container
 EXPOSE 4001
 
-# This will execute the script defined as 'start' in package.json
-CMD ["npm","run","start"]
+CMD ["npm", "run", "start"]
