@@ -2,7 +2,7 @@ import express from "express";
 import hpp from "hpp";
 import helmet from "helmet";
 import cors from "cors";
-import getConfig from "./utils/config";
+import getConfig from "./util/config";
 import { RegisterRoutes } from "./routes/v1/routes";
 
 const app = express();

@@ -1,0 +1,177 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"companycreateschema": {
+				"properties": {
+					"companyName": {
+						"type": "string"
+					},
+					"contactEmail": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"companyName",
+					"contactEmail"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"companyupdateschema": {
+				"properties": {
+					"companyName": {
+						"type": "string"
+					},
+					"logo": {
+						"type": "string"
+					},
+					"contactPhone": {
+						"type": "number",
+						"format": "double"
+					},
+					"websiteLink": {
+						"type": "string"
+					},
+					"location": {
+						"type": "string"
+					},
+					"contactEmail": {
+						"type": "string"
+					},
+					"contactPerson": {
+						"type": "string"
+					},
+					"numberOfEmployees": {
+						"type": "number",
+						"format": "double"
+					},
+					"address": {
+						"type": "string"
+					},
+					"companyDescription": {
+						"type": "string"
+					},
+					"userId": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": true
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "company-service",
+		"version": "1.0.0",
+		"description": "profile microservice for our micro sample app",
+		"license": {
+			"name": "MIT"
+		},
+		"contact": {
+			"name": "Sokritha Yen"
+		}
+	},
+	"paths": {
+		"/v1/company": {
+			"post": {
+				"operationId": "Create",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/companycreateschema"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/v1/company/{id}": {
+			"get": {
+				"operationId": "Get_By_id",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "Update",
+				"responses": {
+					"302": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/companyupdateschema"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/companyupdateschema"
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

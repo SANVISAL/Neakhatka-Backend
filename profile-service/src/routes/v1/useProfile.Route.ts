@@ -1,6 +1,6 @@
 const ROUTE_PATHS = {
   PROFILE: {
-    BASE: "/v1/user",
+    CREATE:"/signup",
     GET_ALL: "/all-profile",
     UPDATE: "/update-profile/:id", // As an example
     GET_BY_ID: "/:id",
