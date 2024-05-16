@@ -4,8 +4,7 @@ export interface UserSignUpResult extends IAuthDocument {}
 export interface UserSignInResult extends IAuthDocument {}
 
 export interface UserSignupParams {
-  firstname: string;
-  lastname: string;
+  username: string;
   email: string;
   password?: string;
   role: string;

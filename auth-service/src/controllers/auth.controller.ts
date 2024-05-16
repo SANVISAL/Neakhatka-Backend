@@ -23,8 +23,7 @@ import APIError from "../errors/api-error";
 import validateInput from "../middlewares/validate-input";
 
 interface SignUpRequestBody {
-  firstname: string;
-  lastname: string;
+  username: string;
   email: string;
   password: string;
   role: string;
@@ -43,13 +42,12 @@ export class AuthController extends Controller {
     @Body() requestBody: SignUpRequestBody
   ): Promise<any> {
     try {
-      const { firstname, lastname, email, password, role } = requestBody;
+      const { username, email, password, role } = requestBody;
 
       // Step 1.
       const userService = new UserService();
       const newUser = await userService.Create({
-        firstname,
-        lastname,
+        username,
         email,
         password,
         role,
@@ -94,45 +92,6 @@ export class AuthController extends Controller {
     @Query() token: string
   ): Promise<{ message: string; token: string }> {
     // Using Response type for more flexible error handling.
-    // try {
-    //   const userService = new UserService();
-    //   const user = await userService.VerifyEmailToken({ token });
-
-    //   // Check if the user does not exist or other types of errors
-    //   if (typeof user === "string") {
-    //     console.log("User does not exist.");
-    //     // return "User not found"; // Change this depending on your actual environment
-    //   }
-
-    //   const jwtToken = await generateSignature({ userID: user._id.toString() });
-    //   const UserDetail = await userService.FindUserByEmail({
-    //     email: user.email,
-    //   });
-    //   // Assuming UserDetail usage here
-    //   if (!UserDetail) {
-    //     console.log("User details not found.");
-    //     // return { status: 404, json: { message: "User details not found" } }; // Adjust as needed
-    //   }
-    //   const messageDetail: IAuthUserMessageDetails = {
-    //     firstname: UserDetail?.firstname,
-    //     lastname: UserDetail?.lastname,
-    //     email: UserDetail?.email,
-    //     type: "auth",
-    //   };
-    //   await publishDirectMessage(
-    //     authChannel,
-    //     "Microsample-user-update",
-    //     "user-applier",
-    //     JSON.stringify(messageDetail),
-    //     "User details Sent to user server"
-    //   );
-
-    //   // If all goes well
-    //   console.log("verify success", jwtToken);
-    // } catch (error) {
-    //   console.log("An error occurred: ", error);
-    // }
-
     try {
       const userService = new UserService();
 
@@ -160,8 +119,7 @@ export class AuthController extends Controller {
       }
 
       const messageDetails: IAuthUserMessageDetails = {
-        firstname: userDetail?.firstname,
-        lastname: userDetail?.lastname,
+        username: userDetail?.username,
         email: userDetail?.email,
         type: "auth",
       };
@@ -235,8 +193,7 @@ export class AuthController extends Controller {
       let newUser = await AuthModel.findOne({ email: profile.email });
       if (!newUser) {
         newUser = new AuthModel({
-          firstname: profile.given_name,
-          lastname: profile.family_name,
+          username: profile.given_name,
           email: profile.email,
           isVerified: true,
           googleId: profile.id,

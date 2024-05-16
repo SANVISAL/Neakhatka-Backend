@@ -1,16 +1,14 @@
 import mongoose, { Document, Model } from "mongoose";
 
 export interface IAuth {
-  firstname: string;
-  lastname: string;
+  username: string,
   email: string;
   role: string;
   isVerified?: boolean;
 }
 
 export interface IAuthDocument extends Document {
-  firstname: string;
-  lastname: string;
+  username: string;
   email: string;
   password: string;
   role: string;
@@ -22,11 +20,7 @@ export interface IAuthModel extends Model<IAuthDocument> {}
 
 const authSchema = new mongoose.Schema(
   {
-    firstname: {
-      type: String,
-      required: true,
-    },
-    lastname: {
+    username: {
       type: String,
       required: true,
     },
