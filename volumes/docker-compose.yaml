@@ -8,9 +8,7 @@ services:
       - RABBITMQ_DEFAULT_USER=myuser
       - RABBITMQ_DEFAULT_PASS=mypassword
     ports:
-      # AMQP protocol port
       - "5672:5672"
-      # Management UI
       - "15672:15672"
   api-gateway:
     container_name: gateway-service
@@ -30,3 +28,12 @@ services:
     ports:
       - "4001:4001"
     env_file: ../auth-service/configs/.env
+  company-service:
+    container_name: company-service
+    build:
+      context: ../company-service
+      dockerfile: Dockerfile.dev
+    restart: always
+    ports:
+      - "4004:4004"
+    env_file: ../company-service/configs/.env
