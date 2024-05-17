@@ -12,6 +12,11 @@ services:
       - "5672:5672"
       # Management UI
       - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping", "--quiet"]
+      interval: 10s
+      timeout: 30s
+      retries: 5
   api-gateway:
     container_name: gateway-service
     build:
@@ -21,6 +26,8 @@ services:
     ports:
       - "4000:4000"
     env_file: ../api-gateway/configs/.env
+    volumes:
+      - ../api-gateway/src:/app/src
   auth-service:
     container_name: auth-service
     build:
@@ -30,3 +37,20 @@ services:
     ports:
       - "4001:4001"
     env_file: ../auth-service/configs/.env
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ../auth-service/src:/app/src
+  notification:
+    container_name: notification-service
+    build:
+      context: ../notification
+      dockerfile: Dockerfile.dev
+    restart: always
+    ports:
+      - "4002:4002"
+    env_file: ../notification/configs/.env
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ../notification/src:/app/src

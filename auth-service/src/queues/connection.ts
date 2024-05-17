@@ -4,6 +4,7 @@ import getConfig from "../utils/config";
 
 export async function createQueueConnection(): Promise<Channel | undefined> {
   try {
+    console.log('Hello from auth service');
     const config = getConfig(process.env.NODE_ENV);
     const connection: Connection = await client.connect(`${config.rabbitMQ}`);
     const channel: Channel = await connection.createChannel();
@@ -11,6 +12,7 @@ export async function createQueueConnection(): Promise<Channel | undefined> {
     closeConnection(channel, connection);
     return channel;
   } catch (error) {
+    console.log("Error form auth :: ", error);
     logger.error(`Auth Server error createQueueConnection() method: ${error}`);
     return undefined;
   }
