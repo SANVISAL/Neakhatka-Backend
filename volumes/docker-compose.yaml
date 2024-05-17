@@ -13,9 +13,9 @@ services:
       # Management UI
       - "15672:15672"
     healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "ping", "--quiet"]
-      interval: 10s
-      timeout: 30s
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
       retries: 5
   api-gateway:
     container_name: gateway-container
@@ -42,7 +42,8 @@ services:
       - "4001:4001"
     env_file: ../auth-service/configs/.env
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
     volumes:
       - ../auth-service/src:/app/src
   notification:
@@ -55,6 +56,7 @@ services:
       - "4002:4002"
     env_file: ../notification/configs/.env
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
     volumes:
       - ../notification/src:/app/src
