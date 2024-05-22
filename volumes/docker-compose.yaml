@@ -10,8 +10,13 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
   api-gateway:
-    container_name: gateway-service
+    container_name: gateway-container
     build:
       context: ../api-gateway
       dockerfile: Dockerfile.dev
@@ -19,8 +24,14 @@ services:
     ports:
       - "4000:4000"
     env_file: ../api-gateway/configs/.env
+    environment:
+      AUTH_SERVICE_URL: http://auth-container:4001
+      USER_SERVICE_URL: http://localhost:4003
+      NOTIFICATION_SERVICE_URL: http://localhost:4002
+    volumes:
+      - ../api-gateway/src:/app/src
   auth-service:
-    container_name: auth-service
+    container_name: auth-container
     build:
       context: ../auth-service
       dockerfile: Dockerfile.dev
@@ -28,12 +39,22 @@ services:
     ports:
       - "4001:4001"
     env_file: ../auth-service/configs/.env
-  company-service:
-    container_name: company-service
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - ../auth-service/src:/app/src
+  notification:
+    container_name: notification-container
     build:
-      context: ../company-service
+      context: ../notification
       dockerfile: Dockerfile.dev
     restart: always
     ports:
-      - "4004:4004"
-    env_file: ../company-service/configs/.env
+      - "4002:4002"
+    env_file: ../notification/configs/.env
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    volumes:
+      - ../notification/src:/app/src
