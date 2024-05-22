@@ -30,7 +30,7 @@ app.use("/api/favorite-cards",favoriterouter)
 // // 6. route company verify token
 // app.use("/companyverify", companyverifyRoute);
 
-app.use("/api", jobRouter);
+// app.use("/api", jobRouter);
 
 // . swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));

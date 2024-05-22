@@ -2,6 +2,7 @@ import APIError from "../../error/api-error";
 import DuplitcateError from "../../error/duplicate-error";
 import { CompanyModel } from "../model/company.repository.model";
 import {
+  // DeleteCompanyRequest,
   companycreateschema,
   companyupdateschema,
 } from "./@types/company.repo.type";
@@ -68,15 +69,16 @@ class CompanyRepo {
     }
   }
 
-  async Delete({ id }: { id: string }) {
+  async Delete({ id }:{id:string}): Promise<void> {
     try {
       const existed = await this.Find_By_id({ id });
       if (!existed) {
-        // console.log("Unable To Delete!");
         throw new APIError("Unable to find in database", StatusCode.NoContent);
       }
       const deleteprofile = await CompanyModel.findByIdAndDelete(id);
-      return deleteprofile;
+      if (!deleteprofile) {
+        throw new Error("Company not found");
+      }
     } catch (error) {
       throw error;
     }

@@ -1,4 +1,5 @@
 import {
+  // DeleteCompanyRequest,
   companycreateschema,
   companyupdateschema,
 } from "../database/repository/@types/company.repo.type";
@@ -13,13 +14,9 @@ import {
   Route,
   Put,
   SuccessResponse,
-  Delete,
+  // Delete,
 } from "tsoa";
 import { StatusCode } from "../util/consts/status.code";
-// import { postcreateschema } from "../database/repository/@types/post.repo.type";
-// import PostService from "../service/post-service";
-// import { ICompanyDocument } from "../database/model/company.repository.model";
-
 @Route("v1/company")
 export class CompanyController extends Controller {
   @SuccessResponse(StatusCode.Created, "Created")
@@ -29,8 +26,14 @@ export class CompanyController extends Controller {
       const company = new CompanyService();
       const result = await company.Create(requestBody);
       return result;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      throw {
+        status: StatusCode.BadRequest,
+        message: "Can not create that User!",
+        detail: error.message,
+      };
+      // throw error;
     }
   }
 
@@ -41,8 +44,14 @@ export class CompanyController extends Controller {
       const companyservice = new CompanyService();
       const result = await companyservice.Find_By_Id({ id });
       return result;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      // throw error;
+      throw {
+        status: StatusCode.NotFound,
+        message: "Can not found with that id",
+        detail: error.message,
+      };
     }
   }
 
@@ -53,30 +62,24 @@ export class CompanyController extends Controller {
       const companyservice = new CompanyService();
       const result = await companyservice.update({ id, update });
       return result;
-    } catch (error) {}
-  }
-
-  @SuccessResponse(StatusCode.NoContent)
-  @Delete(ROUTE_PATHS.COMPANY.DELETE)
-  public async Delete(@Path() id: string) {
-    try {
-      const companyservice = new CompanyService();
-      const deletecompany = companyservice.Delete({ id });
-      return deletecompany;
     } catch (error) {
       throw error;
     }
   }
 
-  // @SuccessResponse(StatusCode.Created)
-  // @Post(ROUTE_PATHS.COMPANY.POST)
-  // public async CreatePost(@Body() requertBody: postcreateschema) {
+  // @SuccessResponse(StatusCode.NoContent)
+  // @Delete(ROUTE_PATHS.COMPANY.DELETE)
+  // public async Delete(@Path() id: string): Promise<void> {
   //   try {
-  //     const postservice = new PostService();
-  //     const result = await postservice.Create(requertBody);
-  //     return result;
-  //   } catch (error) {
-  //     console.log(error);
+  //     const companyservice = new CompanyService();
+  //     const deleterequest: DeleteCompanyRequest = { id };
+  //     await companyservice.Delete(deleterequest);
+  //   } catch (error: any) {
+  //     throw {
+  //       status: StatusCode.NoContent,
+  //       message: "Can not delete that company ",
+  //       detail: error.message,
+  //     };
   //   }
   // }
 }

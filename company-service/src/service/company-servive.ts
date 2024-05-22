@@ -1,5 +1,6 @@
 // import { ICompanyDocument } from "../database/model/company.repository.model";
 import {
+  // DeleteCompanyRequest,
   companycreateschema,
   companyupdateschema,
 } from "../database/repository/@types/company.repo.type";
@@ -30,11 +31,11 @@ class CompanyService {
     }
   }
 
-  async Delete({ id }: { id: string }) {
+  async Delete({id}:{id:string}): Promise<void> {
     try {
-      return await this.companyrepo.Delete({ id });
-    } catch (error) {
-      // console.log(error);
+      await this.companyrepo.Delete({id});
+    } catch (error: any) {
+      console.log("error on service layer",error);
       throw error;
     }
   }
