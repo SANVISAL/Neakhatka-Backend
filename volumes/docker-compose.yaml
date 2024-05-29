@@ -37,3 +37,13 @@ services:
     ports:
       - "4004:4004"
     env_file: ../company-service/configs/.env
+  profile-service:
+    container_name: profile-service
+    build:
+      context: ../profile-service
+      dockerfile: Dockerfile.dev
+    restart: always
+    ports:
+      - "4003:4003"
+    env_file: ../profile-service/configs/.env
+    
